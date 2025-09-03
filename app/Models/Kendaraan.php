@@ -6,23 +6,29 @@ use Illuminate\Database\Eloquent\Model;
 
 class Kendaraan extends Model
 {
-    protected $table = 'kendaraans';
-
     protected $fillable = [
-        'kode_qr',
-        'plat_nomor',
-        'jenis',
         'merk',
-        'warna',
+        'tipe',
+        'no_polisi',
+        'no_rangka',
+        'no_mesin',
         'tahun',
-        'nomor_rangka',
-        'nomor_mesin',
-        'nomor_bpkb',
-        'pemegang',
-        'unit_kerja',
-        'jatuh_tempo_pajak_tahunan',
+        'jenis',
+        'jatuh_tempo_pajak',
         'jatuh_tempo_stnk',
+        'foto',
         'status',
-        'foto_kendaraan',
     ];
+
+    // Relasi ke kepemilikan
+    public function kepemilikan()
+    {
+        return $this->hasMany(KepemilikanKendaraan::class);
+    }
+
+    // Ambil kepemilikan aktif
+    public function currentKepemilikan()
+    {
+        return $this->hasOne(KepemilikanKendaraan::class)->whereNull('tanggal_selesai');
+    }
 }

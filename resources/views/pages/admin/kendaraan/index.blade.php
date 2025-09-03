@@ -1,18 +1,14 @@
 @extends('layouts.admin')
 
-@section('title', 'Data Pegawai')
-
-@push('style')
-    <link rel="stylesheet" href="{{ asset('library/bootstrap-social/bootstrap-social.css') }}">
-@endpush
+@section('title', 'Data Kendaraan')
 
 @section('main')
     <div class="main-content">
         <section class="section">
             <div class="section-header d-flex justify-content-between align-items-center">
-                <h1>Data Pegawai</h1>
-                <a href="{{ route('asn.create') }}" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Tambah Data
+                <h1>Data Kendaraan</h1>
+                <a href="{{ route('kendaraan.create') }}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Tambah Kendaraan
                 </a>
             </div>
 
@@ -24,28 +20,29 @@
                                 <thead class="bg-primary">
                                     <tr>
                                         <th class="text-center text-white">No</th>
-                                        <th class="text-center text-white">Nama</th>
-                                        <th class="text-center text-white">NIP</th>
-                                        <th class="text-center text-white">Nomor HP</th>
-                                        <th class="text-center text-white">Jabatan</th>
+                                        <th class="text-center text-white">Merk</th>
+                                        <th class="text-center text-white">Tipe</th>
+                                        <th class="text-center text-white">No Polisi</th>
+                                        <th class="text-center text-white">Tahun</th>
                                         <th class="text-center text-white">Status</th>
                                         <th class="text-center text-white">#</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($asn as $item)
+                                    @foreach ($kendaraan as $item)
                                         <tr class="text-center">
-                                            <td class="text-center">{{ $loop->iteration }}</td>
-                                            <td>{{ $item->user->name }}</td>
-                                            <td>{{ $item->nip }}</td>
-                                            <td>{{ $item->no_hp ?? '-' }}</td>
-                                            <td>{{ $item->jabatan ?? '-' }}</td>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $item->merk }}</td>
+                                            <td>{{ $item->tipe }}</td>
+                                            <td>{{ $item->no_polisi }}</td>
+                                            <td>{{ $item->tahun }}</td>
                                             <td>{{ ucfirst($item->status) }}</td>
                                             <td>
-                                                <a href="{{ route('asn.edit', $item->id) }}" class="btn btn-sm btn-info">
+                                                <a href="{{ route('kendaraan.edit', $item->id) }}"
+                                                    class="btn btn-sm btn-info">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <form action="{{ route('asn.destroy', $item->id) }}" method="POST"
+                                                <form action="{{ route('kendaraan.destroy', $item->id) }}" method="POST"
                                                     class="form-delete d-inline-block">
                                                     @csrf
                                                     @method('DELETE')
@@ -67,13 +64,6 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('library/selectric/public/jquery.selectric.min.js') }}"></script>
-    <script src="{{ asset('library/summernote/dist/summernote-bs4.js') }}"></script>
-    <script src="{{ asset('library/prismjs/prism.js') }}"></script>
-    <script src="{{ asset('js/page/bootstrap-modal.js') }}"></script>
-    <script src="{{ asset('js/page/forms-advanced-forms.js') }}"></script>
-
-    <!-- Page Specific JS File -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         @if (session('success'))
@@ -85,18 +75,15 @@
                 showConfirmButton: false
             });
         @endif
-    </script>
 
-    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const deleteForms = document.querySelectorAll('.form-delete');
-
             deleteForms.forEach(form => {
                 form.addEventListener('submit', function(e) {
-                    e.preventDefault(); // stop submit dulu
+                    e.preventDefault();
                     Swal.fire({
                         title: 'Yakin ingin menghapus?',
-                        text: "Data pegawai tidak bisa dikembalikan setelah dihapus!",
+                        text: "Data tidak bisa dikembalikan setelah dihapus!",
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#d33',
@@ -105,7 +92,7 @@
                         cancelButtonText: 'Batal'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            form.submit(); // submit form yang benar
+                            form.submit();
                         }
                     });
                 });
