@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('nomor_rangka')->unique();
             $table->string('nomor_mesin')->unique();
             $table->string('nomor_bpkb')->unique();
-            $table->foreignId('pegawai_id')->nullable()->constrained('pegawai')->onDelete('set null');
+            $table->foreignId('pegawai_id');
             $table->string('unit_kerja');
             $table->date('jatuh_tempo_pajak_tahunan');
             $table->date('jatuh_tempo_stnk');
