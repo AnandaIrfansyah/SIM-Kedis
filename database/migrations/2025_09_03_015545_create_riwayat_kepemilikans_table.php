@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('riwayat_kepemilikans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('kendaraan_id')->constrained('kendaraans')->onDelete('cascade');
-            $table->foreignId('pegawai_id')->constrained('pegawai')->onDelete('cascade');
+            $table->foreignId('pegawai_id');
             $table->date('tanggal_mulai');
             $table->date('tanggal_selesai')->nullable(); // null jika masih aktif
             $table->timestamps();
