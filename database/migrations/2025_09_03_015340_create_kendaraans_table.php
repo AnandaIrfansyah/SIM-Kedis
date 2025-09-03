@@ -6,35 +6,25 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('kendaraans', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_qr')->unique();
-            $table->string('plat_nomor')->unique();
-            $table->string('jenis');
             $table->string('merk');
-            $table->string('warna');
-            $table->year('tahun');
-            $table->string('nomor_rangka')->unique();
-            $table->string('nomor_mesin')->unique();
-            $table->string('nomor_bpkb')->unique();
-            $table->foreignId('pegawai_id');
-            $table->string('unit_kerja');
-            $table->date('jatuh_tempo_pajak_tahunan');
-            $table->date('jatuh_tempo_stnk');
-            $table->enum('status', ['Aktif', 'Nonaktif', 'Perawatan'])->default('Aktif');
-            $table->string('foto_kendaraan')->nullable();
+            $table->string('tipe')->nullable();
+            $table->string('no_polisi')->unique();
+            $table->string('no_rangka')->nullable()->unique();
+            $table->string('no_mesin')->nullable()->unique();
+            $table->integer('tahun')->nullable();
+            $table->enum('jenis', ['mobil', 'motor', 'lainnya'])->default('mobil');
+            $table->date('jatuh_tempo_pajak')->nullable();
+            $table->date('jatuh_tempo_stnk')->nullable();
+            $table->string('foto')->nullable();
+            $table->enum('status', ['aktif', 'nonaktif'])->default('aktif');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('kendaraans');

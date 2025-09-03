@@ -18,7 +18,12 @@
             <li class="menu-header">Menu</li>
             <li class="nav-item {{ Request::is('asn') ? 'active' : '' }}">
                 <a href="{{ url('asn') }}" class="nav-link">
-                    <i class="fas fa-user"></i><span>Data Pegawai</span>
+                    <i class="fas fa-user-tie"></i><span>Data Pegawai</span>
+                </a>
+            </li>
+            <li class="nav-item {{ Request::is('kendaraan') ? 'active' : '' }}">
+                <a href="{{ url('kendaraan') }}" class="nav-link">
+                    <i class="fas fa-taxi"></i><span>Data Kendaraan</span>
                 </a>
             </li>
         </ul>

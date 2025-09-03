@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('riwayat_kepemilikans', function (Blueprint $table) {
+        Schema::create('kepemilikan_kendaraans', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('asn_id')->constrained('asns')->onDelete('cascade');
             $table->foreignId('kendaraan_id')->constrained('kendaraans')->onDelete('cascade');
-            $table->foreignId('pegawai_id');
-            $table->date('tanggal_mulai');
-            $table->date('tanggal_selesai')->nullable(); // null jika masih aktif
+            $table->date('tanggal_mulai')->nullable(); // mulai digunakan
+            $table->date('tanggal_selesai')->nullable(); // jika sudah tidak digunakan
+            $table->enum('status', ['aktif', 'nonaktif'])->default('aktif');
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('riwayat_kepemilikans');
+        Schema::dropIfExists('kepemilikan_kendaraans');
     }
 };

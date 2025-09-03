@@ -11,7 +11,7 @@
 
             <div class="section-body">
                 <div class="card">
-                    <div class="card-header bg-info">
+                    <div class="card-header bg-primary">
                         <h4 class="text-white">Form Edit Pegawai</h4>
                     </div>
                     <div class="card-body">
