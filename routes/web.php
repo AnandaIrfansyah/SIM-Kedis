@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DataAsnController;
 use App\Http\Controllers\Auth\LoginCOntroller;
 use App\Http\Controllers\Pegawai\DashboardController as PegawaiDashboardController;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +18,7 @@ Route::post('logout', [LoginCOntroller::class, 'logout'])->name('logout');
 // Admin routes
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('admin', DashboardController::class);
+    Route::resource('asn', DataAsnController::class);
 });
 
 // Pegawai routes
