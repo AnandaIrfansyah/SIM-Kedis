@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('jatuh_tempo_pajak')->nullable();
             $table->date('jatuh_tempo_stnk')->nullable();
             $table->string('foto')->nullable();
+            $table->string('qr_code')->unique()->nullable();
             $table->enum('status', ['aktif', 'nonaktif'])->default('aktif');
             $table->timestamps();
         });

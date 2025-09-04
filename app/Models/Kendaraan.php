@@ -17,6 +17,7 @@ class Kendaraan extends Model
         'jatuh_tempo_pajak',
         'jatuh_tempo_stnk',
         'foto',
+        'qr_code',
         'status',
     ];
 

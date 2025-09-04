@@ -25,6 +25,7 @@
                                         <th class="text-center text-white">No Polisi</th>
                                         <th class="text-center text-white">Tahun</th>
                                         <th class="text-center text-white">Status</th>
+                                        <th class="text-center text-white">QR Code</th>
                                         <th class="text-center text-white">#</th>
                                     </tr>
                                 </thead>
@@ -38,10 +39,25 @@
                                             <td>{{ $item->tahun }}</td>
                                             <td>{{ ucfirst($item->status) }}</td>
                                             <td>
+                                                @if ($item->qr_code)
+                                                    <img src="{{ asset('storage/qr_code/' . $item->id . '.png') }}"
+                                                        alt="QR" width="50">
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <!-- Tombol Show -->
+                                                <button type="button" class="btn btn-sm btn-success" data-toggle="modal"
+                                                    data-target="#showModal{{ $item->id }}">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+
+                                                <!-- Tombol Edit -->
                                                 <a href="{{ route('kendaraan.edit', $item->id) }}"
                                                     class="btn btn-sm btn-info">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
+
+                                                <!-- Tombol Delete -->
                                                 <form action="{{ route('kendaraan.destroy', $item->id) }}" method="POST"
                                                     class="form-delete d-inline-block">
                                                     @csrf
@@ -60,6 +76,98 @@
                 </div>
             </div>
         </section>
+    </div>
+
+    <!-- Modal Show -->
+    <div class="modal fade" id="showModal{{ $item->id }}" tabindex="-1" role="dialog"
+        aria-labelledby="showModalLabel{{ $item->id }}" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content shadow-lg">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="showModalLabel{{ $item->id }}">Detail Kendaraan
+                    </h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <!-- Kolom kiri -->
+                        <div class="col-md-6">
+                            <table class="table table-sm table-borderless">
+                                <tr>
+                                    <th width="40%">Merk</th>
+                                    <td>{{ $item->merk }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Tipe</th>
+                                    <td>{{ $item->tipe }}</td>
+                                </tr>
+                                <tr>
+                                    <th>No Polisi</th>
+                                    <td>{{ $item->no_polisi }}</td>
+                                </tr>
+                                <tr>
+                                    <th>No Rangka</th>
+                                    <td>{{ $item->no_rangka ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th>No Mesin</th>
+                                    <td>{{ $item->no_mesin ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Tahun</th>
+                                    <td>{{ $item->tahun ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Status</th>
+                                    <td>
+                                        <span class="badge badge-{{ $item->status == 'aktif' ? 'success' : 'secondary' }}">
+                                            {{ ucfirst($item->status) }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- Kolom kanan -->
+                        <div class="col-md-6 text-center">
+                            <div class="mb-3">
+                                <strong>QR Code</strong><br>
+                                @if ($item->qr_code)
+                                    <img src="{{ asset('storage/qr_code/' . $item->id . '.png') }}" alt="QR Code"
+                                        class="img-fluid" width="150">
+                                @else
+                                    <span class="text-muted">Belum ada QR
+                                        Code</span>
+                                @endif
+                            </div>
+
+                            <div>
+                                <strong>Foto Kendaraan</strong><br>
+                                @if ($item->foto)
+                                    <img src="{{ asset('storage/' . $item->foto) }}" alt="Foto Kendaraan"
+                                        class="img-thumbnail mt-2" width="200">
+                                @else
+                                    <span class="text-muted">Belum ada
+                                        foto</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        <i class="fas fa-times"></i> Tutup
+                    </button>
+                    <a href="{{ route('kendaraan.edit', $item->id) }}" class="btn btn-info">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 
