@@ -21,15 +21,13 @@ class Kendaraan extends Model
         'status',
     ];
 
-    // Relasi ke kepemilikan
-    public function kepemilikan()
-    {
-        return $this->hasMany(KepemilikanKendaraan::class);
-    }
-
-    // Ambil kepemilikan aktif
     public function currentKepemilikan()
     {
         return $this->hasOne(KepemilikanKendaraan::class)->whereNull('tanggal_selesai');
+    }
+    
+    public function kepemilikanKendaraans()
+    {
+        return $this->hasMany(KepemilikanKendaraan::class);
     }
 }

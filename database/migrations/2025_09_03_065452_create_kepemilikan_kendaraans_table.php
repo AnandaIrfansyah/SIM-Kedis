@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('asn_id')->constrained('asns')->onDelete('cascade');
             $table->foreignId('kendaraan_id')->constrained('kendaraans')->onDelete('cascade');
-            $table->date('tanggal_mulai')->nullable(); // mulai digunakan
-            $table->date('tanggal_selesai')->nullable(); // jika sudah tidak digunakan
+            $table->date('tanggal_mulai')->nullable(); 
+            $table->date('tanggal_selesai')->nullable();
             $table->enum('status', ['aktif', 'nonaktif'])->default('aktif');
             $table->timestamps();
         });
