@@ -1,29 +1,41 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
+        <!-- Brand -->
         <div class="sidebar-brand">
-            <a href="index.html">Stisla</a>
+            <a href="{{ url('admin') }}">SIM Kedis</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
-            <a href="index.html">St</a>
+            <a href="{{ url('admin') }}">SIM</a>
         </div>
+
+        <!-- Sidebar Menu -->
         <ul class="sidebar-menu">
+            <!-- Dashboard Section -->
             <li class="menu-header">Dashboard</li>
-            <li class="nav-item dropdown">
             <li class="nav-item {{ Request::is('admin') ? 'active' : '' }}">
                 <a href="{{ url('admin') }}" class="nav-link">
-                    <i class="fas fa-home"></i><span>Dashboard</span>
+                    <i class="fas fa-home"></i> <span>Dashboard</span>
                 </a>
             </li>
-            </li>
-            <li class="menu-header">Menu</li>
+
+            <!-- Informasi Utama -->
+            <li class="menu-header">Informasi Utama</li>
             <li class="nav-item {{ Request::is('asn') ? 'active' : '' }}">
                 <a href="{{ url('asn') }}" class="nav-link">
-                    <i class="fas fa-user-tie"></i><span>Data Pegawai</span>
+                    <i class="fas fa-user-tie"></i> <span>Data Pegawai</span>
                 </a>
             </li>
             <li class="nav-item {{ Request::is('kendaraan') ? 'active' : '' }}">
                 <a href="{{ url('kendaraan') }}" class="nav-link">
-                    <i class="fas fa-taxi"></i><span>Data Kendaraan</span>
+                    <i class="fas fa-car"></i> <span>Data Kendaraan</span>
+                </a>
+            </li>
+
+            <!-- Pengelolaan Aset -->
+            <li class="menu-header">Pengelolaan Aset</li>
+            <li class="nav-item {{ Request::is('kepemilikan') ? 'active' : '' }}">
+                <a href="{{ url('kepemilikan') }}" class="nav-link">
+                    <i class="fas fa-file-contract"></i> <span>Data Kepemilikan</span>
                 </a>
             </li>
         </ul>

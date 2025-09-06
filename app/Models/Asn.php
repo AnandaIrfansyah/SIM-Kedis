@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Asn extends Model
 {
     protected $table = 'asns';
-    
+
     protected $fillable = [
         'user_id',
         'nip',
@@ -20,5 +20,10 @@ class Asn extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function kepemilikanKendaraans()
+    {
+        return $this->hasMany(KepemilikanKendaraan::class);
     }
 }
