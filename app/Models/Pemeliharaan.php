@@ -10,10 +10,22 @@ class Pemeliharaan extends Model
 
     protected $fillable = [
         'kendaraan_id',
+        'asn_id',
         'tanggal_pemeliharaan',
         'jenis_pemeliharaan',
         'biaya',
         'bengkel',
         'keterangan',
     ];
+
+
+    public function asn()
+    {
+        return $this->belongsTo(Asn::class, 'asn_id');
+    }
+
+    public function kendaraan()
+    {
+        return $this->belongsTo(Kendaraan::class, 'kendaraan_id');
+    }
 }

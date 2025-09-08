@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('pemeliharaans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('kendaraan_id')->constrained('kendaraans')->onDelete('cascade');
+            $table->foreignId('asn_id')->constrained('asns')->onDelete('cascade');
             $table->date('tanggal_pemeliharaan');
             $table->string('jenis_pemeliharaan');
-            $table->decimal('biaya', 15, 2)->nullable();
+            $table->double('biaya')->nullable();
             $table->string('bengkel');
             $table->text('keterangan')->nullable();
             $table->timestamps();
