@@ -19,11 +19,16 @@ class Asn extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function kepemilikanKendaraans()
     {
-        return $this->hasMany(KepemilikanKendaraan::class);
+        return $this->hasMany(KepemilikanKendaraan::class, 'asn_id');
+    }
+
+    public function pemeliharaans()
+    {
+        return $this->hasMany(Pemeliharaan::class, 'asn_id');
     }
 }

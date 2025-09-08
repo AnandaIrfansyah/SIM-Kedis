@@ -46,4 +46,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function asn()
+    {
+        return $this->hasOne(Asn::class, 'user_id');
+    }
 }

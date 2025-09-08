@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\DataAsnController;
-use App\Http\Controllers\Admin\DataKendaraanController;
-use App\Http\Controllers\Admin\KepemilikanKendaraanController;
-use App\Http\Controllers\Auth\LoginCOntroller;
-use App\Http\Controllers\Pegawai\DashboardController as PegawaiDashboardController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginCOntroller;
+use App\Http\Controllers\Admin\DataAsnController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DataKendaraanController;
+use App\Http\Controllers\Pegawai\PemeliharaanController;
+use App\Http\Controllers\Admin\KepemilikanKendaraanController;
+use App\Http\Controllers\Pegawai\DashboardController as PegawaiDashboardController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -29,4 +30,5 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 // Pegawai routes
 Route::middleware(['auth', 'role:pegawai'])->group(function () {
     Route::resource('pegawai', PegawaiDashboardController::class);
+    Route::resource('pemeliharaan', PemeliharaanController::class);
 });
