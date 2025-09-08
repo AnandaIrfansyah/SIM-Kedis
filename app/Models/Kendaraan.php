@@ -33,7 +33,7 @@ class Kendaraan extends Model
         return $this->hasMany(Pemeliharaan::class, 'kendaraan_id');
     }
 
-    public function kepemilikan()
+    public function kepemilikanKendaraans()
     {
         return $this->hasMany(KepemilikanKendaraan::class, 'kendaraan_id');
     }
