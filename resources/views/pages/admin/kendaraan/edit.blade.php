@@ -53,7 +53,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="tahun">Tahun</label>
-                                        <input type="text" id="tahun" name="tahun" class="form-control" 
+                                        <input type="text" id="tahun" name="tahun" class="form-control"
                                             value="{{ old('tahun', $kendaraan->tahun) }}" required>
                                     </div>
                                     <div class="form-group">

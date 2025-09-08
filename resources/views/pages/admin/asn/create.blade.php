@@ -56,15 +56,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="status">Status ASN</label>
-                                <select id="status" name="status" class="form-control selectric" required>
-                                    <option value="">-- Pilih Status ASN --</option>
-                                    <option value="aktif">Aktif</option>
-                                    <option value="nonaktif">Nonaktif</option>
-                                    <option value="pensiun">Pensiun</option>
-                                </select>
-                            </div>
+                            
                             <!-- Tombol -->
                             <div class="d-flex justify-content-between mt-3">
                                 <a href="{{ route('asn.index') }}" class="btn btn-secondary">Kembali</a>

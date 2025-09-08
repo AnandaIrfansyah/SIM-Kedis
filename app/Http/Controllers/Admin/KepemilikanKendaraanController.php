@@ -18,9 +18,13 @@ class KepemilikanKendaraanController extends Controller
 
     public function create()
     {
-        $asns = Asn::with('user')->where('status', 'aktif')->get();
+        $asns = Asn::whereDoesntHave('kepemilikanKendaraans', function ($q) {
+            $q->where('status', 'aktif');
+        })->get();
 
-        $kendaraans = Kendaraan::doesntHave('currentKepemilikan')->get();
+        $kendaraans = Kendaraan::whereDoesntHave('kepemilikanKendaraans', function ($q) {
+            $q->where('status', 'aktif');
+        })->get();
 
         return view('pages.admin.kepemilkan.create', compact('asns', 'kendaraans'));
     }
@@ -32,6 +36,26 @@ class KepemilikanKendaraanController extends Controller
             'kendaraan_id' => 'required|exists:kendaraans,id',
         ]);
 
+        $kendaraanAktif = KepemilikanKendaraan::where('kendaraan_id', $request->kendaraan_id)
+            ->where('status', 'aktif')
+            ->exists();
+
+        if ($kendaraanAktif) {
+            return redirect()->back()->withErrors([
+                'kendaraan_id' => 'Kendaraan ini masih dimiliki ASN lain.',
+            ]);
+        }
+
+        $asnAktif = KepemilikanKendaraan::where('asn_id', $request->asn_id)
+            ->where('status', 'aktif')
+            ->exists();
+
+        if ($asnAktif) {
+            return redirect()->back()->withErrors([
+                'asn_id' => 'ASN ini masih memiliki kendaraan aktif.',
+            ]);
+        }
+
         KepemilikanKendaraan::create([
             'asn_id' => $request->asn_id,
             'kendaraan_id' => $request->kendaraan_id,
@@ -39,7 +63,8 @@ class KepemilikanKendaraanController extends Controller
             'status' => 'aktif',
         ]);
 
-        return redirect()->route('kepemilikan.index')->with('success', 'Kepemilikan kendaraan berhasil ditambahkan.');
+        return redirect()->route('kepemilikan.index')
+            ->with('success', 'Kepemilikan kendaraan berhasil ditambahkan.');
     }
 
     public function selesai($id)
@@ -48,7 +73,7 @@ class KepemilikanKendaraanController extends Controller
 
         $kepemilikan->update([
             'tanggal_selesai' => now(),
-            'status' => 'nonaktif', 
+            'status' => 'nonaktif',
         ]);
 
         return redirect()->back()->with('success', 'Kepemilikan kendaraan telah diselesaikan.');
