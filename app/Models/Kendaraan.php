@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Kendaraan extends Model
 {
+    protected $table = 'kendaraans';
+
     protected $fillable = [
         'merk',
         'tipe',
@@ -25,9 +27,14 @@ class Kendaraan extends Model
     {
         return $this->hasOne(KepemilikanKendaraan::class)->whereNull('tanggal_selesai');
     }
-    
-    public function kepemilikanKendaraans()
+
+    public function pemeliharaans()
     {
-        return $this->hasMany(KepemilikanKendaraan::class);
+        return $this->hasMany(Pemeliharaan::class, 'kendaraan_id');
+    }
+
+    public function kepemilikan()
+    {
+        return $this->hasMany(KepemilikanKendaraan::class, 'kendaraan_id');
     }
 }
