@@ -38,17 +38,24 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($kendaraan as $item)
+                                    @forelse ($kendaraan as $item)
                                         <tr class="text-center">
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $item->merk }}</td>
-                                            <td>{{ $item->no_polisi }}</td>
-                                            <td>{{ $item->tahun }}</td>
-                                            <td>
-                                                <span
+                                            <td>{{ $item->merk ?? '-' }}</td>
+                                            <td>{{ $item->tipe ?? '-' }}</td>
+                                            <td>{{ $item->no_polisi ?? '-' }}</td>
+                                            <td>{{ $item->tahun ?? '-' }}</td>
+                                            <span
                                                     class="badge badge-{{ $item->status == 'aktif' ? 'success' : 'secondary' }}">
                                                     {{ ucfirst($item->status) }}
                                                 </span>
+                                            <td>
+                                                @if ($item->qr_code)
+                                                    <img src="{{ asset('storage/qr_code/' . $item->id . '.png') }}"
+                                                        alt="QR" width="50">
+                                                @else
+                                                    <span class="text-muted">Belum ada QR</span>
+                                                @endif
                                             </td>
                                             <td>
                                                 <!-- Tombol Show -->
@@ -74,7 +81,13 @@
                                                 </form>
                                             </td>
                                         </tr>
-                                    @endforeach
+                                    @empty
+                                        <tr>
+                                            <td colspan="8" class="text-center text-muted">
+                                                <em>Data kendaraan belum tersedia</em>
+                                            </td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
 
                             </table>
@@ -98,7 +111,6 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -168,8 +180,11 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @else
+                            <p class="text-center text-muted">Data kendaraan tidak tersedia.</p>
+                        @endif
                     </div>
+
 
                     <div class="modal-footer bg-light">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">
@@ -194,7 +209,6 @@
             </div>
         </div>
     </div>
-
 @endsection
 
 @push('scripts')
