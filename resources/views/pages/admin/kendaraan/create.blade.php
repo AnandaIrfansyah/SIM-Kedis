@@ -46,7 +46,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="tahun">Tahun</label>
-                                        <input type="number" id="tahun" name="tahun" class="form-control" required>
+                                        <input type="text" id="tahun" name="tahun" class="form-control" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="jenis">Jenis</label>

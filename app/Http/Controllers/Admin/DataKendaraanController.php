@@ -34,7 +34,7 @@ class DataKendaraanController extends Controller
             'jatuh_tempo_pajak' => 'nullable|date',
             'jatuh_tempo_stnk' => 'nullable|date',
             'status' => 'required|in:aktif,nonaktif',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:10240',
         ], [
             'no_polisi.unique' => 'Nomor polisi sudah terdaftar.',
             'merk.required' => 'Merk kendaraan wajib diisi.',
@@ -88,7 +88,7 @@ class DataKendaraanController extends Controller
             'jatuh_tempo_pajak' => 'nullable|date',
             'jatuh_tempo_stnk' => 'nullable|date',
             'status' => 'required|in:aktif,nonaktif',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:10240',
         ], [
             'no_polisi.unique' => 'Nomor polisi sudah terdaftar.',
             'merk.required' => 'Merk kendaraan wajib diisi.',
