@@ -65,8 +65,12 @@
                                             <td>{{ $item->asn->user->name }}</td>
                                             <td>{{ $item->kendaraan->merk }} {{ $item->kendaraan->tipe }}</td>
                                             <td>{{ $item->kendaraan->no_polisi }}</td>
-                                            <td>{{ $item->tanggal_mulai }}</td>
-                                            <td>{{ $item->tanggal_selesai ?? '-' }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($item->tanggal_mulai)->translatedFormat('d F Y') }}
+                                            <td>
+                                                {{ optional($item->tanggal_selesai ? \Carbon\Carbon::parse($item->tanggal_selesai) : null)?->translatedFormat(
+                                                    'd F Y',
+                                                ) ?? '-' }}
+                                            </td>
                                             <td>
                                                 <span
                                                     class="badge badge-{{ $item->status == 'aktif' ? 'success' : 'secondary' }}">
@@ -109,7 +113,7 @@
                 <div class="modal-content">
                     <div class="modal-header bg-primary text-white">
                         <h5 class="modal-title" id="detailModalLabel{{ $item->id }}">
-                            <i class="fas fa-car mr-2"></i>Detail Kepemilikan Kendaraan
+                            <i class="fas fa-car mr-2 mb-3"></i>Detail Kepemilikan Kendaraan
                         </h5>
                         <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -209,11 +213,15 @@
                                             </div>
                                             <div class="col-sm-6 mb-2">
                                                 <label class="font-weight-bold text-info mb-0">Jatuh Tempo Pajak</label>
-                                                <p class="mb-0">{{ $item->kendaraan->jatuh_tempo_pajak ?? '-' }}</p>
+                                                <p class="mb-0">
+                                                    {{ \Carbon\Carbon::parse($item->kendaraan->jatuh_tempo_pajak)->translatedFormat('l, d F Y') }}
+                                                </p>
                                             </div>
                                             <div class="col-sm-6 mb-2">
                                                 <label class="font-weight-bold text-info mb-0">Jatuh Tempo STNK</label>
-                                                <p class="mb-0">{{ $item->kendaraan->jatuh_tempo_stnk ?? '-' }}</p>
+                                                <p class="mb-0">
+                                                    {{ \Carbon\Carbon::parse($item->kendaraan->jatuh_tempo_stnk)->translatedFormat('l, d F Y') }}
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
