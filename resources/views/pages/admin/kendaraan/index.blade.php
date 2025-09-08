@@ -2,7 +2,7 @@
 
 @section('title', 'Data Kendaraan')
 
-@push('style')
+@push('style    ')
     <style>
         .preview-img-limited {
             max-height: 80vh;
