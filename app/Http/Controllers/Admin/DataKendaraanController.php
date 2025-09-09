@@ -16,6 +16,14 @@ class DataKendaraanController extends Controller
         return view('pages.admin.kendaraan.index', compact('kendaraan'));
     }
 
+    public function publicShow($id)
+    {
+        $kendaraan = Kendaraan::findOrFail($id);
+
+        return view('pages.public.dashboard', compact('kendaraan'));
+    }
+
+
     public function create()
     {
         return view('pages.admin.kendaraan.create');
@@ -29,6 +37,7 @@ class DataKendaraanController extends Controller
             'no_polisi' => 'required|string|max:20|unique:kendaraans,no_polisi',
             'no_rangka' => 'nullable|string|max:50|unique:kendaraans,no_rangka',
             'no_mesin' => 'nullable|string|max:50|unique:kendaraans,no_mesin',
+            'no_bpkb' => 'nullable|string|max:50|unique:kendaraans,no_bpkb',
             'tahun' => 'required|digits:4',
             'jenis' => 'nullable|string|max:20',
             'jatuh_tempo_pajak' => 'nullable|date',
@@ -54,15 +63,15 @@ class DataKendaraanController extends Controller
         $data['qr_code'] = 'KEND-' . strtoupper(uniqid());
 
         // Simpan ke database
-        $kendaraan = Kendaraan::create($data);
+        Kendaraan::create($data);
 
         // Generate file gambar QR Code
         $qrImage = QrCode::format('png')
             ->size(200)
             ->errorCorrection('H')
-            ->generate(route('kendaraan.show', $kendaraan->id));
+            ->generate(route('scan.kendaraan', $data['qr_code']));
 
-        Storage::disk('public')->put('qr_code/' . $kendaraan->id . '.png', $qrImage);
+        Storage::disk('public')->put('qr_code/' . $data['qr_code'] . '.png', $qrImage);
 
         return redirect()->route('kendaraan.index')->with('success', 'Data kendaraan berhasil ditambahkan.');
     }
@@ -83,6 +92,7 @@ class DataKendaraanController extends Controller
             'no_polisi' => 'required|string|max:20|unique:kendaraans,no_polisi,' . $kendaraan->id,
             'no_rangka' => 'nullable|string|max:50|unique:kendaraans,no_rangka,' . $kendaraan->id,
             'no_mesin' => 'nullable|string|max:50|unique:kendaraans,no_mesin,' . $kendaraan->id,
+            'no_bpkb' => 'nullable|string|max:50|unique:kendaraans,no_bpkb,' . $kendaraan->id,
             'tahun' => 'required|digits:4',
             'jenis' => 'nullable|string|max:20',
             'jatuh_tempo_pajak' => 'nullable|date',
@@ -108,14 +118,6 @@ class DataKendaraanController extends Controller
 
         $kendaraan->update($data);
 
-        // Regenerate QR Code (overwrite lama)
-        $qrImage = QrCode::format('png')
-            ->size(200)
-            ->errorCorrection('H')
-            ->generate(route('kendaraan.show', $kendaraan->id));
-
-        Storage::disk('public')->put('qr_code/' . $kendaraan->id . '.png', $qrImage);
-
         return redirect()->route('kendaraan.index')->with('success', 'Data kendaraan berhasil diperbarui.');
     }
 
@@ -123,22 +125,18 @@ class DataKendaraanController extends Controller
     {
         $kendaraan = Kendaraan::findOrFail($id);
 
+        // Hapus foto jika ada
         if ($kendaraan->foto && Storage::disk('public')->exists($kendaraan->foto)) {
             Storage::disk('public')->delete($kendaraan->foto);
         }
 
-        if (Storage::disk('public')->exists('qr_code/' . $kendaraan->id . '.png')) {
-            Storage::disk('public')->delete('qr_code/' . $kendaraan->id . '.png');
+        // Hapus file QR Code berdasarkan kode unik
+        if ($kendaraan->qr_code && Storage::disk('public')->exists('qr_code/' . $kendaraan->qr_code . '.png')) {
+            Storage::disk('public')->delete('qr_code/' . $kendaraan->qr_code . '.png');
         }
 
         $kendaraan->delete();
 
         return redirect()->route('kendaraan.index')->with('success', 'Data kendaraan berhasil dihapus.');
-    }
-
-    public function show($id)
-    {
-        $kendaraan = Kendaraan::findOrFail($id);
-        return view('pages.admin.kendaraan.show', compact('kendaraan'));
     }
 }

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('no_polisi')->unique();
             $table->string('no_rangka')->nullable()->unique();
             $table->string('no_mesin')->nullable()->unique();
+            $table->string('no_bpkb')->nullable()->unique();
             $table->integer('tahun')->nullable();
             $table->string('jenis')->nullable();
             $table->date('jatuh_tempo_pajak')->nullable();

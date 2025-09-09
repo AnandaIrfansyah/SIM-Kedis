@@ -47,13 +47,18 @@
                                         <input type="text" id="no_mesin" name="no_mesin" class="form-control"
                                             value="{{ old('no_mesin', $kendaraan->no_mesin) }}">
                                     </div>
+                                    <div class="form-group">
+                                        <label for="no_bpkb">No BPKB</label>
+                                        <input type="text" id="no_bpkb" name="no_bpkb" class="form-control"
+                                            value="{{ old('no_bpkb', $kendaraan->no_bpkb) }}">
+                                    </div>
                                 </div>
 
                                 <!-- Kolom kanan -->
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="tahun">Tahun</label>
-                                        <input type="text" id="tahun" name="tahun" class="form-control" 
+                                        <input type="text" id="tahun" name="tahun" class="form-control"
                                             value="{{ old('tahun', $kendaraan->tahun) }}" required>
                                     </div>
                                     <div class="form-group">
