@@ -45,6 +45,10 @@
                                         <label for="no_mesin">No Mesin</label>
                                         <input type="text" id="no_mesin" name="no_mesin" class="form-control">
                                     </div>
+                                    <div class="form-group">
+                                        <label for="no_bpkb">No BPKB</label>
+                                        <input type="text" id="no_bpkb" name="no_bpkb" class="form-control">
+                                    </div>
                                 </div>
 
                                 <!-- Kolom kanan -->

@@ -457,6 +457,86 @@ footer {
     font-weight: 600;
 }
 
+/* Section Scan Result */
+#scan-result {
+    text-align: center;
+}
+
+#scan-result h2 {
+    font-size: 1.6rem;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+#scan-result h4 {
+    font-weight: normal;
+    color: #7f8c8d;
+    margin-bottom: 20px;
+}
+
+/* Card Kendaraan */
+.kendaraan-card {
+    display: flex;
+    gap: 25px;
+    align-items: flex-start;
+    border: 1px solid #eaeaea;
+    border-radius: 15px;
+    padding: 25px;
+    background: #ffffff;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+}
+
+.kendaraan-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+.kendaraan-foto img {
+    max-width: 240px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 2px solid #f0f0f0;
+}
+
+/* Detail Kendaraan */
+.kendaraan-detail {
+    flex: 1;
+    text-align: left;
+}
+
+.kendaraan-detail h1 {
+    margin-bottom: 18px;
+    color: #1a202c;
+    font-size: 2.5rem;
+    font-weight: 800;
+}
+
+/* Info List */
+.kendaraan-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 20px;
+}
+
+.kendaraan-info p {
+    background: #f8f9fa;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #eee;
+}
+
+.kendaraan-info p b {
+    color: #2c3e50;
+    min-width: 140px;
+    display: inline-block;
+}
+
+
 /* RESPONSIVE FIX */
 @media (max-width: 992px) {
     .nav__btns {

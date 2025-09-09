@@ -150,9 +150,9 @@
                                     <div class="card-body text-center">
                                         <h6 class="text-primary mb-3"><i class="fas fa-qrcode"></i> QR Code</h6>
                                         @if ($item->qr_code)
-                                            <img src="{{ asset('storage/qr_code/' . $item->id . '.png') }}" alt="QR Code"
+                                            <img src="{{ asset('storage/qr_code/' . $item->qr_code . '.png') }}" alt="QR Code"
                                                 class="img-fluid mb-3 preview-media" width="150"
-                                                data-src="{{ asset('storage/qr_code/' . $item->id . '.png') }}">
+                                                data-src="{{ asset('storage/qr_code/' . $item->qr_code . '.png') }}">
                                         @else
                                             <span class="text-muted">Belum ada QR Code</span>
                                         @endif

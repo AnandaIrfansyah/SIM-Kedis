@@ -17,6 +17,12 @@ class Asn extends Model
         'status',
     ];
 
+    public function getNamaAttribute()
+    {
+        return $this->user ? $this->user->name : null;
+    }
+
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

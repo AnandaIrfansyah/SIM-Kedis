@@ -14,6 +14,7 @@ class Kendaraan extends Model
         'no_polisi',
         'no_rangka',
         'no_mesin',
+        'no_bpkb',
         'tahun',
         'jenis',
         'jatuh_tempo_pajak',
@@ -32,9 +33,10 @@ class Kendaraan extends Model
     {
         return $this->hasMany(Pemeliharaan::class, 'kendaraan_id');
     }
-
+    
     public function kepemilikanKendaraans()
     {
-        return $this->hasMany(KepemilikanKendaraan::class, 'kendaraan_id');
+        return $this->hasOne(KepemilikanKendaraan::class, 'kendaraan_id')
+            ->where('status', 'aktif'); // hanya ambil kepemilikan aktif
     }
 }
