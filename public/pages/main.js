@@ -66,7 +66,7 @@ ScrollReveal().reveal(".showcase__content p", {
     delay: 1000,
 });
 
-ScrollReveal().reveal("showcase__btn", {
+ScrollReveal().reveal(".showcase__btn", {
     ...scrollRevealOption,
     delay: 1500,
 });

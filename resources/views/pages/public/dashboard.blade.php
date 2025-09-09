@@ -275,9 +275,9 @@
         </div>
     </footer>
 
-    <script src="{{ asset('pages/main.js') }}"></script>
-    <script src="https://unpkg.com/scrollreveal"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="{{ asset('pages/main.js') }}"></script>
     <script>
         let html5QrCode;
 

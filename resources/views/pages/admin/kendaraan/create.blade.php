@@ -27,27 +27,33 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="merk">Merk</label>
-                                        <input type="text" id="merk" name="merk" class="form-control" required>
+                                        <input type="text" id="merk" name="merk" class="form-control" required
+                                            placeholder="Masukkan merk kendaraan">
                                     </div>
                                     <div class="form-group">
                                         <label for="tipe">Tipe</label>
-                                        <input type="text" id="tipe" name="tipe" class="form-control" required>
+                                        <input type="text" id="tipe" name="tipe" class="form-control" required
+                                            placeholder="Masukkan tipe kendaraan">
                                     </div>
                                     <div class="form-group">
                                         <label for="no_polisi">No Polisi</label>
-                                        <input type="text" id="no_polisi" name="no_polisi" class="form-control" required>
+                                        <input type="text" id="no_polisi" name="no_polisi" class="form-control" required
+                                            placeholder="Masukkan nomor polisi">
                                     </div>
                                     <div class="form-group">
                                         <label for="no_rangka">No Rangka</label>
-                                        <input type="text" id="no_rangka" name="no_rangka" class="form-control">
+                                        <input type="text" id="no_rangka" name="no_rangka" class="form-control"
+                                            placeholder="Masukkan nomor rangka">
                                     </div>
                                     <div class="form-group">
                                         <label for="no_mesin">No Mesin</label>
-                                        <input type="text" id="no_mesin" name="no_mesin" class="form-control">
+                                        <input type="text" id="no_mesin" name="no_mesin" class="form-control"
+                                            placeholder="Masukkan nomor mesin">
                                     </div>
                                     <div class="form-group">
                                         <label for="no_bpkb">No BPKB</label>
-                                        <input type="text" id="no_bpkb" name="no_bpkb" class="form-control">
+                                        <input type="text" id="no_bpkb" name="no_bpkb" class="form-control"
+                                            placeholder="Masukkan nomor BPKB">
                                     </div>
                                 </div>
 
@@ -55,25 +61,28 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="tahun">Tahun</label>
-                                        <input type="text" id="tahun" name="tahun" class="form-control" required>
+                                        <input type="text" id="tahun" name="tahun" class="form-control" required
+                                            placeholder="Masukkan tahun kendaraan">
                                     </div>
                                     <div class="form-group">
                                         <label for="jenis">Jenis</label>
-                                        <input type="text" id="jenis" name="jenis" class="form-control">
+                                        <input type="text" id="jenis" name="jenis" class="form-control"
+                                            placeholder="Masukkan jenis kendaraan">
                                     </div>
                                     <div class="form-group">
                                         <label for="jatuh_tempo_pajak">Jatuh Tempo Pajak</label>
                                         <input type="date" id="jatuh_tempo_pajak" name="jatuh_tempo_pajak"
-                                            class="form-control datepicker">
+                                            class="form-control datepicker" placeholder="Pilih tanggal jatuh tempo pajak">
                                     </div>
                                     <div class="form-group">
                                         <label for="jatuh_tempo_stnk">Jatuh Tempo STNK</label>
                                         <input type="date" id="jatuh_tempo_stnk" name="jatuh_tempo_stnk"
-                                            class="form-control datepicker">
+                                            class="form-control datepicker" placeholder="Pilih tanggal jatuh tempo STNK">
                                     </div>
                                     <div class="form-group">
                                         <label for="foto">Foto Kendaraan</label>
-                                        <input type="file" id="foto" name="foto" class="form-control">
+                                        <input type="file" id="foto" name="foto" class="form-control"
+                                            placeholder="Upload foto kendaraan">
                                     </div>
                                     {{-- <div class="form-group">
                                         <label for="status">Status</label>

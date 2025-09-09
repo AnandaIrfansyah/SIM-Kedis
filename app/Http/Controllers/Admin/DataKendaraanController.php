@@ -55,8 +55,8 @@ class DataKendaraanController extends Controller
 
         $data['qr_code'] = 'KEND-' . strtoupper(uniqid());
 
-        $kendaraan = Kendaraan::create($data);
-        
+        Kendaraan::create($data);
+
         $qrImage = QrCode::format('png')
             ->size(200)
             ->errorCorrection('H')
@@ -102,13 +102,6 @@ class DataKendaraanController extends Controller
         }
 
         $kendaraan->update($data);
-
-        $qrImage = QrCode::format('png')
-            ->size(200)
-            ->errorCorrection('H')
-            ->generate(route('kendaraan.show', $kendaraan->id));
-
-        Storage::disk('public')->put('qr_code/' . $kendaraan->id . '.png', $qrImage);
 
         return redirect()->route('kendaraan.index')->with('success', 'Data kendaraan berhasil diperbarui.');
     }
