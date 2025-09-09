@@ -42,30 +42,21 @@ class DataKendaraanController extends Controller
             'jenis' => 'nullable|string|max:20',
             'jatuh_tempo_pajak' => 'nullable|date',
             'jatuh_tempo_stnk' => 'nullable|date',
-            'status' => 'required|in:aktif,nonaktif',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:10240',
-        ], [
-            'no_polisi.unique' => 'Nomor polisi sudah terdaftar.',
-            'merk.required' => 'Merk kendaraan wajib diisi.',
-            'tipe.required' => 'Tipe kendaraan wajib diisi.',
-            'tahun.digits' => 'Tahun harus berupa 4 digit angka.',
         ]);
 
-        // Ambil semua data dari form
         $data = $request->all();
 
-        // Upload foto kendaraan jika ada
         if ($request->hasFile('foto')) {
             $data['foto'] = $request->file('foto')->store('kendaraan', 'public');
         }
 
-        // Generate QR Code unik
+        $data['status'] = 'aktif';
+
         $data['qr_code'] = 'KEND-' . strtoupper(uniqid());
 
-        // Simpan ke database
-        Kendaraan::create($data);
-
-        // Generate file gambar QR Code
+        $kendaraan = Kendaraan::create($data);
+        
         $qrImage = QrCode::format('png')
             ->size(200)
             ->errorCorrection('H')
@@ -99,16 +90,10 @@ class DataKendaraanController extends Controller
             'jatuh_tempo_stnk' => 'nullable|date',
             'status' => 'required|in:aktif,nonaktif',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:10240',
-        ], [
-            'no_polisi.unique' => 'Nomor polisi sudah terdaftar.',
-            'merk.required' => 'Merk kendaraan wajib diisi.',
-            'tipe.required' => 'Tipe kendaraan wajib diisi.',
-            'tahun.digits' => 'Tahun harus berupa 4 digit angka.',
         ]);
 
         $data = $request->all();
 
-        // Update foto jika ada file baru
         if ($request->hasFile('foto')) {
             if ($kendaraan->foto && Storage::disk('public')->exists($kendaraan->foto)) {
                 Storage::disk('public')->delete($kendaraan->foto);
@@ -118,8 +103,16 @@ class DataKendaraanController extends Controller
 
         $kendaraan->update($data);
 
+        $qrImage = QrCode::format('png')
+            ->size(200)
+            ->errorCorrection('H')
+            ->generate(route('kendaraan.show', $kendaraan->id));
+
+        Storage::disk('public')->put('qr_code/' . $kendaraan->id . '.png', $qrImage);
+
         return redirect()->route('kendaraan.index')->with('success', 'Data kendaraan berhasil diperbarui.');
     }
+
 
     public function destroy($id)
     {

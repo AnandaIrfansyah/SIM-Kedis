@@ -2,6 +2,11 @@
 
 @section('title', 'Tambah Kendaraan')
 
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('library/bootstrap-daterangepicker/daterangepicker.css') }}">
+    <link rel="stylesheet" href="{{ asset('library/bootstrap-timepicker/css/bootstrap-timepicker.min.css') }}">
+@endpush
+
 @section('main')
     <div class="main-content">
         <section class="section">
@@ -59,24 +64,24 @@
                                     <div class="form-group">
                                         <label for="jatuh_tempo_pajak">Jatuh Tempo Pajak</label>
                                         <input type="date" id="jatuh_tempo_pajak" name="jatuh_tempo_pajak"
-                                            class="form-control">
+                                            class="form-control datepicker">
                                     </div>
                                     <div class="form-group">
                                         <label for="jatuh_tempo_stnk">Jatuh Tempo STNK</label>
                                         <input type="date" id="jatuh_tempo_stnk" name="jatuh_tempo_stnk"
-                                            class="form-control">
+                                            class="form-control datepicker">
                                     </div>
                                     <div class="form-group">
                                         <label for="foto">Foto Kendaraan</label>
                                         <input type="file" id="foto" name="foto" class="form-control">
                                     </div>
-                                    <div class="form-group">
+                                    {{-- <div class="form-group">
                                         <label for="status">Status</label>
                                         <select id="status" name="status" class="form-control selectric">
                                             <option value="aktif">Aktif</option>
                                             <option value="nonaktif">Nonaktif</option>
                                         </select>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
 
@@ -93,6 +98,8 @@
 @endsection
 
 @push('scripts')
+    <script src="{{ asset('library/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+    <script src="{{ asset('library/bootstrap-timepicker/js/bootstrap-timepicker.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         @if ($errors->any())

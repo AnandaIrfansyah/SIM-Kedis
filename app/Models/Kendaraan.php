@@ -33,8 +33,8 @@ class Kendaraan extends Model
     {
         return $this->hasMany(Pemeliharaan::class, 'kendaraan_id');
     }
-
-    public function kepemilikanAktif()
+    
+    public function kepemilikanKendaraans()
     {
         return $this->hasOne(KepemilikanKendaraan::class, 'kendaraan_id')
             ->where('status', 'aktif'); // hanya ambil kepemilikan aktif

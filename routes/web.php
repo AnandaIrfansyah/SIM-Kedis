@@ -1,13 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\LoginCOntroller;
 use App\Http\Controllers\Admin\DataAsnController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Public\PublicScanController;
 use App\Http\Controllers\Admin\DataKendaraanController;
 use App\Http\Controllers\Pegawai\PemeliharaanController;
 use App\Http\Controllers\Admin\KepemilikanKendaraanController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Pegawai\DashboardController as PegawaiDashboardController;
 
 Route::get('/', function () {
@@ -15,9 +15,9 @@ Route::get('/', function () {
 })->name('home');
 
 
-Route::get('login', [LoginCOntroller::class, 'showLogin'])->name('login');
-Route::post('login', [LoginCOntroller::class, 'login'])->name('login.post');
-Route::post('logout', [LoginCOntroller::class, 'logout'])->name('logout');
+Route::get('login', [LoginController::class, 'showLogin'])->name('login');
+Route::post('login', [LoginController::class, 'login'])->name('login.post');
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/scan/{qrCode}', [PublicScanController::class, 'show'])->name('scan.kendaraan');
 Route::get('/foto/{qrCode}', [PublicScanController::class, 'foto'])->name('scan.foto');
