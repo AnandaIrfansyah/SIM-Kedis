@@ -22,7 +22,6 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/scan/{qrCode}', [PublicScanController::class, 'show'])->name('scan.kendaraan');
 Route::get('/foto/{qrCode}', [PublicScanController::class, 'foto'])->name('scan.foto');
 
-
 // Admin routes
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('admin', DashboardController::class);

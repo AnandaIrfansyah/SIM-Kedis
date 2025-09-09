@@ -1,3 +1,4 @@
   <div class="simple-footer">
-      Copyright &copy; Stisla 2018
+      Copyright © 2025 <a class="" href="https://dishubcirebon.com/" target="_blank">Dinas
+                Perhubungan Kota Cirebon</a>
   </div>

@@ -20,12 +20,12 @@
 
             <!-- Informasi Utama -->
             <li class="menu-header">Informasi Utama</li>
-            <li class="nav-item {{ Request::is('asn') ? 'active' : '' }}">
+            <li class="nav-item {{ Request::is('asn*') ? 'active' : '' }}">
                 <a href="{{ url('asn') }}" class="nav-link">
                     <i class="fas fa-user-tie"></i> <span>Data Pegawai</span>
                 </a>
             </li>
-            <li class="nav-item {{ Request::is('kendaraan') ? 'active' : '' }}">
+            <li class="nav-item {{ Request::is('kendaraan*') ? 'active' : '' }}">
                 <a href="{{ url('kendaraan') }}" class="nav-link">
                     <i class="fas fa-car"></i> <span>Data Kendaraan</span>
                 </a>
@@ -33,7 +33,7 @@
 
             <!-- Pengelolaan Aset -->
             <li class="menu-header">Pengelolaan Aset</li>
-            <li class="nav-item {{ Request::is('kepemilikan') ? 'active' : '' }}">
+            <li class="nav-item {{ Request::is('kepemilikan*') ? 'active' : '' }}">
                 <a href="{{ url('kepemilikan') }}" class="nav-link">
                     <i class="fas fa-file-contract"></i> <span>Data Kepemilikan</span>
                 </a>
