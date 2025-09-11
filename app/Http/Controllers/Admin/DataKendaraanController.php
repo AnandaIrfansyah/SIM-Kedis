@@ -7,6 +7,7 @@ use App\Models\Kendaraan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class DataKendaraanController extends Controller
 {
@@ -23,6 +24,15 @@ class DataKendaraanController extends Controller
         return view('pages.public.dashboard', compact('kendaraan'));
     }
 
+    public function cetakQrCode()
+    {
+        $kendaraans = Kendaraan::all();
+
+        $pdf = Pdf::loadView('pages.cetak.qr_code_pdf', compact('kendaraans'))
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->stream('qr-kendaraan.pdf');
+    }
 
     public function create()
     {

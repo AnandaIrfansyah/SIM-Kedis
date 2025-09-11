@@ -19,7 +19,7 @@
                 @csrf
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input id="email" type="text" class="form-control" name="email" placeholder="email"
+                    <input id="email" type="text" class="form-control" name="email" placeholder="Email"
                         value="{{ old('email') }}" tabindex="1" required autofocus>
                     <div class="invalid-feedback">
                         Please fill in your email
@@ -39,6 +39,9 @@
                     <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
                         Login
                     </button>
+                    <div class="justify-content-center text-center">
+                        <a href="{{ route('home') }}" class="btn btn-secondary my-3">Kembali</a>
+                    </div>
                 </div>
             </form>
         </div>
