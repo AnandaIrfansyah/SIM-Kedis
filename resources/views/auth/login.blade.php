@@ -39,6 +39,9 @@
                     <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
                         Login
                     </button>
+                    <div class="justify-content-center text-center">
+                        <a href="{{ route('home') }}" class="btn btn-secondary my-3">Kembali</a>
+                    </div>
                 </div>
             </form>
         </div>

@@ -261,10 +261,10 @@
                                                     <i class="fas fa-qrcode mr-2"></i>QR Code
                                                 </h6>
                                                 @if ($item->kendaraan->qr_code)
-                                                    <img src="{{ asset('storage/qr_code/' . $item->kendaraan->id . '.png') }}"
+                                                    <img src="{{ asset('storage/qr_code/' . $item->kendaraan->qr_code . '.png') }}"
                                                         alt="QR Code" class="img-thumbnail preview-media"
                                                         style="max-height: 200px; cursor: pointer;"
-                                                        data-src="{{ asset('storage/qr_code/' . $item->kendaraan->id . '.png') }}"
+                                                        data-src="{{ asset('storage/qr_code/' . $item->kendaraan->qr_code . '.png') }}"
                                                         data-toggle="tooltip" title="Klik untuk memperbesar">
                                                 @else
                                                     <div class="bg-light p-5 rounded">

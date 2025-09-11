@@ -119,7 +119,8 @@
             <h2 style="text-align: center; margin: 1rem;">Scan QR Kendaraan</h2>
             <div id="reader" style="width:100%;"></div>
             <br>
-            <button onclick="closeScanner()" class="btn" style="cursor:pointer; border: none; display: block; margin: 0 auto;">Tutup</button>
+            <button onclick="closeScanner()" class="btn"
+                style="cursor:pointer; border: none; display: block; margin: 0 auto;">Tutup</button>
         </div>
     </div>
 
@@ -277,103 +278,9 @@
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('pages/main.js') }}"></script>
-    <script>
-        let html5QrCode;
 
-        // Buka modal scanner
-        document.querySelector(".scan-btn").addEventListener("click", function(e) {
-            e.preventDefault();
-            document.getElementById("scanModal").style.display = "flex";
-
-            html5QrCode = new Html5Qrcode("reader");
-
-            // Fungsi masking
-            function maskData(data, visible = 4) {
-                if (!data) return '-';
-                return data.slice(0, visible) + '*'.repeat(Math.max(data.length - visible, 0));
-            }
-
-            function startScanner(cameraConfig) {
-                html5QrCode.start(
-                    cameraConfig, {
-                        fps: 10,
-                        qrbox: 250
-                    },
-                    (decodedText) => {
-                        // Stop scanner setelah berhasil scan
-                        html5QrCode.stop().then(() => {
-                            document.getElementById("scanModal").style.display = "none";
-                        });
-
-                        // Fetch detail kendaraan
-                        fetch(decodedText)
-                            .then(res => res.json())
-                            .then(data => {
-                                if (data.error) {
-                                    document.querySelector(".kendaraan-detail").innerHTML =
-                                        `<p style="color:red;">${data.error}</p>`;
-                                    return;
-                                }
-
-                                document.getElementById("scan-result").style.display = "block";
-                                document.querySelector(".kendaraan-detail").innerHTML = `
-                                <h1 style="color: #0b3d91">${data.no_polisi}</h1>
-                                <div class="kendaraan-info">
-                                    <p><b>Jenis Kendaraan</b> ${data.jenis}</p>
-                                    <p><b>Merk</b> ${data.merk}</p>
-                                    <p><b>Tahun</b> ${data.tahun}</p>
-                                    <p><b>No. Rangka</b> ${maskData(data.no_rangka,6)}</p>
-                                    <p><b>No. Mesin</b> ${maskData(data.no_mesin,4)}</p>
-                                    <p><b>No. BPKB</b> ${maskData(data.no_bpkb,2)}</p>
-                                    <p><b>Pemegang</b> ${data.pemilik}</p>
-                                    <p><b>Unit Kerja :</b> ${data.unit_kerja ?? '-'}</p>
-                                </div>
-                            `;
-
-                                if (data.foto) {
-                                    document.getElementById("fotoKendaraan").src = data.foto;
-                                } else {
-                                    document.getElementById("fotoKendaraan").src = "pages/img/no-image.png";
-                                }
-                            })
-                            .catch(() => {
-                                document.querySelector(".kendaraan-detail").innerHTML =
-                                    "<p style='color:red;'>Gagal mengambil data kendaraan. QR Code tidak valid.</p>";
-                            });
-                    },
-                    (errorMessage) => {
-                        // bisa kosongin biar ga flooding
-                    }
-                ).catch(() => {
-                    // fallback ke kamera depan
-                    if (cameraConfig.facingMode !== "user") {
-                        startScanner({
-                            facingMode: "user"
-                        });
-                    }
-                });
-            }
-
-            // Mulai scan pakai kamera belakang
-            startScanner({
-                facingMode: {
-                    exact: "environment"
-                }
-            });
-        });
-
-        // Tutup modal scanner
-        function closeScanner() {
-            if (html5QrCode) {
-                html5QrCode.stop().then(() => {
-                    document.getElementById("scanModal").style.display = "none";
-                }).catch(err => console.log(err));
-            } else {
-                document.getElementById("scanModal").style.display = "none";
-            }
-        }
-    </script>
 
 
 </body>
