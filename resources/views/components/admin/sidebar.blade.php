@@ -1,12 +1,14 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
-        <!-- Brand -->
-        <div class="sidebar-brand">
-            <a href="{{ url('admin') }}">SIM Kedis</a>
+        <div class="sidebar-brand text-center py-3">
+            <img src="{{ asset('img/dishub.png') }}" alt="Logo" class="img-fluid" style="max-width: 60px;">
+            <div style="margin-top: 0px; font-weight: bold; font-size: 16px;">SIM KEDIS
+            </div>
         </div>
-        <div class="sidebar-brand sidebar-brand-sm">
-            <a href="{{ url('admin') }}">SIM</a>
+        <div class="sidebar-brand sidebar-brand-sm text-center">
+            <img src="{{ asset(path: 'img/dishub.png') }}" alt="" style="max-width: 50px;">
         </div>
+        <hr class="my-2">
 
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu">

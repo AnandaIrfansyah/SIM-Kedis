@@ -19,8 +19,14 @@ Route::get('login', [LoginController::class, 'showLogin'])->name('login');
 Route::post('login', [LoginController::class, 'login'])->name('login.post');
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/scan/{qrCode}', [PublicScanController::class, 'show'])->name('scan.kendaraan');
-Route::get('/foto/{qrCode}', [PublicScanController::class, 'foto'])->name('scan.foto');
+// routes/web.php
+Route::get('/scan/{qrCode}', [PublicScanController::class, 'scanqr'])->name('scan.qr');
+
+// Update Password (semua user login bisa akses)
+Route::middleware('auth')->group(function () {
+    Route::get('/update-password', [LoginController::class, 'showUpdatePassword'])->name('password.form');
+    Route::post('/update-password', [LoginController::class, 'updatePassword'])->name('password.update');
+});
 
 // Admin routes
 Route::middleware(['auth', 'role:admin'])->group(function () {
@@ -32,6 +38,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('kendaraan', DataKendaraanController::class);
     Route::get('kepemilikan/nonaktif', [KepemilikanKendaraanController::class, 'inactive'])
         ->name('kepemilikan.inactive');
+    Route::get('/cetak-qrcode', [DataKendaraanController::class, 'cetakQrCode'])->name('kendaraan.cetak.qrcode');
     Route::resource('kepemilikan', KepemilikanKendaraanController::class);
     Route::patch('kepemilikan/{id}/selesai', [KepemilikanKendaraanController::class, 'selesai'])->name('kepemilikan.selesai');
 });

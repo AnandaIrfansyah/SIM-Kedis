@@ -17,9 +17,15 @@
         <section class="section">
             <div class="section-header d-flex justify-content-between align-items-center">
                 <h1>Data Kendaraan</h1>
-                <a href="{{ route('kendaraan.create') }}" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Tambah Kendaraan
-                </a>
+                <div>
+                    <a href="{{ route('kendaraan.create') }}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Tambah Kendaraan
+                    </a>
+                    <a href="{{ route('kendaraan.cetak.qrcode') }}" target="_blank" class="btn btn-danger">
+                        <i class="fas fa-print"></i> Cetak QR Code
+                    </a>
+
+                </div>
             </div>
 
             <div class="section-body">
@@ -211,13 +217,18 @@
         </div>
     @endforeach
 
-    <div class="modal fade" id="mediaPreviewModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content bg-transparent border-0 shadow-none text-center">
-                <button type="button" class="close text-white ml-auto mr-2 mt-2" data-dismiss="modal">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <img id="mediaPreviewImg" src="" class="img-fluid rounded preview-img-limited" alt="Preview">
+     <div class="modal fade" id="mediaPreviewModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Preview</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="mediaPreviewImg" src="" alt="Preview" class="img-fluid">
+                </div>
             </div>
         </div>
     </div>

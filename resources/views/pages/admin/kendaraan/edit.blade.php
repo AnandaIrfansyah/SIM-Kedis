@@ -104,7 +104,7 @@
                                         <label>QR Code</label>
                                         @if ($kendaraan->qr_code)
                                             <div class="mb-2">
-                                                <img src="{{ asset('storage/qr_code/' . $kendaraan->id . '.png') }}"
+                                                <img src="{{ asset('storage/qr_code/' . $kendaraan->qr_code . '.png') }}"
                                                     alt="QR Code" width="150">
                                             </div>
                                         @endif

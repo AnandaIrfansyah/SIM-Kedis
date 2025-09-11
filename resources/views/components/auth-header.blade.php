@@ -1,6 +1,6 @@
  <div class="login-brand">
      <img src="{{ asset('img/dishub.png') }}"
          alt="logo"
-         width="150"
+         width="100"
          class="shadow-light rounded-circle">
  </div>

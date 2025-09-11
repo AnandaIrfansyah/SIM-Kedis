@@ -476,66 +476,122 @@ footer {
 
 /* Card Kendaraan */
 .kendaraan-card {
-    display: flex;
-    gap: 25px;
-    align-items: flex-start;
-    border: 1px solid #eaeaea;
-    border-radius: 15px;
-    padding: 25px;
-    background: #ffffff;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-    transition: all 0.3s ease;
+    background: #f8f9fa;
+    border-radius: 16px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+    padding: 2rem;
+    margin-top: 1.5rem;
 }
 
-.kendaraan-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+.kendaraan-card h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #0b3d91;
+    margin-bottom: 1rem;
+    letter-spacing: 1px;
+    text-align: center;
+    width: 100%;
+}
+
+/* Body: foto + detail */
+.kendaraan-body {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.kendaraan-foto {
+    flex: 0 0 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .kendaraan-foto img {
-    max-width: 240px;
-    border-radius: 12px;
+    width: 220px;
+    height: 160px;
     object-fit: cover;
-    border: 2px solid #f0f0f0;
+    border-radius: 14px;
+    border: 1.5px solid #e0e0e0;
+    background: #fff;
 }
 
-/* Detail Kendaraan */
 .kendaraan-detail {
     flex: 1;
+    min-width: 220px;
+}
+
+/* Kendaraan Info 2 Kolom */
+.kendaraan-info-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem 2rem;
+    margin-top: 0.5rem;
+}
+
+.kendaraan-info-2col .col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.kendaraan-info-2col .row {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    align-items: center;
+    background: #eef2f7;
+    border-radius: 6px;
+    padding: 0.5rem 0.8rem;
+    font-size: 1rem;
+}
+
+.kendaraan-info-2col .label {
+    color: #0b3d91;
+    font-weight: 600;
+    text-align: left;
+    padding-right: 1rem;
+}
+
+.kendaraan-info-2col span:not(.label) {
+    color: #222;
+    font-weight: 500;
     text-align: left;
 }
 
-.kendaraan-detail h1 {
-    margin-bottom: 18px;
-    color: #1a202c;
-    font-size: 2.5rem;
-    font-weight: 800;
+/* Responsive: tablet ke bawah */
+@media (max-width: 700px) {
+    .kendaraan-info-2col {
+        grid-template-columns: 1fr;
+        gap: 0.7rem;
+    }
+    .kendaraan-info-2col .row {
+        grid-template-columns: 1fr;
+        padding: 0.5rem 0.5rem;
+    }
+    .kendaraan-info-2col .label {
+        padding-right: 0;
+        margin-bottom: 2px;
+    }
 }
 
-/* Info List */
-.kendaraan-info {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px 20px;
+/* Responsive: HP */
+@media (max-width: 600px) {
+    .kendaraan-body {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    .kendaraan-foto img {
+        max-width: 180px;
+        height: auto;
+        margin-bottom: 1rem;
+    }
+    .kendaraan-card h1 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+    }
 }
-
-.kendaraan-info p {
-    background: #f8f9fa;
-    padding: 10px 14px;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border: 1px solid #eee;
-}
-
-.kendaraan-info p b {
-    color: #2c3e50;
-    min-width: 140px;
-    display: inline-block;
-}
-
 
 /* RESPONSIVE FIX */
 @media (max-width: 992px) {
@@ -914,5 +970,25 @@ footer {
 
     .nav__btns-mobile a {
         text-decoration: none; /* Hilangkan garis bawah pada elemen <a> */
+    }
+}
+
+/* Tambahkan di style.css jika ingin grid responsif satu kolom di HP */
+@media (max-width: 600px) {
+    .kendaraan-card {
+        flex-direction: column;
+        align-items: center;
+        padding: 15px;
+    }
+    .kendaraan-foto img {
+        max-width: 180px;
+        margin-bottom: 1rem;
+    }
+    .kendaraan-detail h1 {
+        font-size: 1.5rem;
+        margin-bottom: 12px;
+    }
+    .kendaraan-info {
+        grid-template-columns: 1fr;
     }
 }
