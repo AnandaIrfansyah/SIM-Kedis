@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Data Pegawai')
+@section('title', 'Riwayat Pegawai Tidak Aktif')
 
 @push('style')
     <link rel="stylesheet" href="{{ asset('library/bootstrap-social/bootstrap-social.css') }}">
@@ -10,24 +10,19 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header d-flex justify-content-between align-items-center">
-                <h1>Data Pegawai</h1>
-                <a href="{{ route('asn.create') }}" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Tambah Data
+                <h1>Riwayat Pegawai Tidak Aktif</h1>
+                <a href="{{ route('asn.index') }}" class="btn btn-primary">
+                    <i class="fas fa-arrow-left"></i> Kembali ke Data Aktif
                 </a>
             </div>
 
             <div class="section-body">
-
                 <div class="card">
                     <div class="card-body">
-                        <div class="mb-3 d-flex justify-content-between align-items-center">
-                            <!-- Tombol Tambah Data di kiri -->
-                            <a href="{{ route('asn.inactive') }}" class="btn btn-danger">
-                                <i class="fas fa-history"></i> Riwayat Pegawai Tidak Aktif
-                            </a>
+                        <div class="float-right mb-3">
 
-                            <!-- Form pencarian di kanan -->
-                            <form method="GET" action="{{ route('asn.index') }}">
+                            <!-- Form pencarian -->
+                            <form method="GET" action="">
                                 <div class="input-group">
                                     <input type="text" class="form-control" placeholder="Cari Nama" name="name"
                                         value="{{ request('name') }}">
@@ -98,51 +93,3 @@
         </section>
     </div>
 @endsection
-
-@push('scripts')
-    <script src="{{ asset('library/selectric/public/jquery.selectric.min.js') }}"></script>
-    <script src="{{ asset('library/summernote/dist/summernote-bs4.js') }}"></script>
-    <script src="{{ asset('library/prismjs/prism.js') }}"></script>
-    <script src="{{ asset('js/page/bootstrap-modal.js') }}"></script>
-    <script src="{{ asset('js/page/forms-advanced-forms.js') }}"></script>
-
-    <!-- Page Specific JS File -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        @if (session('success'))
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil!',
-                text: '{{ session('success') }}',
-                timer: 3000,
-                showConfirmButton: false
-            });
-        @endif
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const deleteForms = document.querySelectorAll('.form-delete');
-
-            deleteForms.forEach(form => {
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault(); // stop submit dulu
-                    Swal.fire({
-                        title: 'Yakin ingin menghapus?',
-                        text: "Data pegawai tidak bisa dikembalikan setelah dihapus!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#d33',
-                        cancelButtonColor: '#3085d6',
-                        confirmButtonText: 'Ya, hapus!',
-                        cancelButtonText: 'Batal'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            form.submit(); // submit form yang benar
-                        }
-                    });
-                });
-            });
-        });
-    </script>
-@endpush

@@ -37,9 +37,15 @@
             <li class="menu-header">Pengelolaan Aset</li>
             <li class="nav-item {{ Request::is('kepemilikan*') ? 'active' : '' }}">
                 <a href="{{ url('kepemilikan') }}" class="nav-link">
-                    <i class="fas fa-file-contract"></i> <span>Data Kepemilikan</span>
+                    <i class="fas fa-file-contract"></i> <span>Kepemilikan Kendaraan</span>
                 </a>
             </li>
+            <li class="nav-item {{ Request::is('pemeliharaan*') ? 'active' : '' }}">
+                <a href="{{ url('pemeliharaan') }}" class="nav-link">
+                    <i class="fas fa-tools"></i> <span>Pemeliharaan</span>
+                </a>
+            </li>
+
         </ul>
     </aside>
 </div>

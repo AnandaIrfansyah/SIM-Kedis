@@ -10,10 +10,34 @@ use Illuminate\Support\Facades\Hash;
 
 class DataAsnController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $asn = Asn::with('user')->get();
+        $query = Asn::with('user')->where('status', 'aktif');
+
+        if ($request->filled('name')) {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->name . '%');
+            });
+        }
+
+        $asn = $query->get();
+
         return view('pages.admin.asn.index', compact('asn'));
+    }
+
+    public function inactive(Request $request)
+    {
+        $query = Asn::with('user')->where('status', '!=', 'aktif');
+
+        if ($request->filled('name')) {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->name . '%');
+            });
+        }
+
+        $asn = $query->get();
+
+        return view('pages.admin.asn.inactive', compact('asn'));
     }
 
     public function create()

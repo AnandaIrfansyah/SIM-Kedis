@@ -31,8 +31,13 @@ Route::middleware('auth')->group(function () {
 // Admin routes
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('admin', DashboardController::class);
+    Route::get('asn/inactive', [DataAsnController::class, 'inactive'])->name('asn.inactive');
     Route::resource('asn', DataAsnController::class);
+    Route::get('kendaraan/inactive', [DataKendaraanController::class, 'inactive'])->name('kendaraan.inactive');
+    Route::resource('kendaraan', DataKendaraanController::class)->except(['show']);
     Route::resource('kendaraan', DataKendaraanController::class);
+    Route::get('kepemilikan/nonaktif', [KepemilikanKendaraanController::class, 'inactive'])
+        ->name('kepemilikan.inactive');
     Route::get('/cetak-qrcode', [DataKendaraanController::class, 'cetakQrCode'])->name('kendaraan.cetak.qrcode');
     Route::resource('kepemilikan', KepemilikanKendaraanController::class);
     Route::patch('kepemilikan/{id}/selesai', [KepemilikanKendaraanController::class, 'selesai'])->name('kepemilikan.selesai');
