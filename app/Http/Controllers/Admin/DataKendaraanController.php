@@ -10,10 +10,38 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class DataKendaraanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $kendaraan = Kendaraan::all();
+        $query = Kendaraan::where('status', 'aktif');
+
+        if ($request->has('search') && $request->search != '') {
+            $query->where(function ($q) use ($request) {
+                $q->where('merk', 'like', '%' . $request->search . '%')
+                    ->orWhere('no_polisi', 'like', '%' . $request->search . '%')
+                    ->orWhere('tipe', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $kendaraan = $query->get();
+
         return view('pages.admin.kendaraan.index', compact('kendaraan'));
+    }
+
+    public function inactive(Request $request)
+    {
+        $query = Kendaraan::where('status', 'nonaktif');
+
+        if ($request->has('search') && $request->search != '') {
+            $query->where(function ($q) use ($request) {
+                $q->where('merk', 'like', '%' . $request->search . '%')
+                    ->orWhere('no_polisi', 'like', '%' . $request->search . '%')
+                    ->orWhere('tipe', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $kendaraan = $query->get();
+
+        return view('pages.admin.kendaraan.inactive', compact('kendaraan'));
     }
 
     public function publicShow($id)

@@ -79,7 +79,7 @@
 
     <!-- Page Specific JS File -->
     <script src="{{ asset('js/page/forms-advanced-forms.js') }}"></script>
-    
+
     @stack('scripts')
 
     <!-- Template JS File -->

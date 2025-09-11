@@ -44,6 +44,24 @@
             <div class="section-body">
                 <div class="card">
                     <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <a href="{{ route('kepemilikan.inactive') }}" class="btn btn-danger">
+                                <i class="fas fa-archive"></i> Riwayat Kepemilikan Selesai
+                            </a>
+                            <div class="mb-3">
+                                <form method="GET" action="{{ route('kepemilikan.index') }}">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Cari ASN / Merk / No Polisi"
+                                            name="search" value="{{ request('search') }}">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered">
                                 <thead class="bg-primary">

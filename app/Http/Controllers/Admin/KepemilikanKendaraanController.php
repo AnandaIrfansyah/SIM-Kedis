@@ -10,11 +10,46 @@ use Illuminate\Http\Request;
 
 class KepemilikanKendaraanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $kepemilikans = KepemilikanKendaraan::with(['asn.user', 'kendaraan'])->latest()->get();
-        return view('pages.admin.kepemilkan.index', compact('kepemilikans'));
+        $search = $request->input('search');
+
+        $kepemilikans = KepemilikanKendaraan::with(['asn.user', 'kendaraan'])
+            ->where('status', 'aktif')
+            ->when($search, function ($query, $search) {
+                $query->whereHas('asn.user', function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%");
+                })->orWhereHas('kendaraan', function ($q) use ($search) {
+                    $q->where('merk', 'like', "%{$search}%")
+                        ->orWhere('no_polisi', 'like', "%{$search}%");
+                });
+            })
+            ->latest()
+            ->get();
+
+        return view('pages.admin.kepemilikan.index', compact('kepemilikans'));
     }
+
+    public function inactive(Request $request)
+    {
+        $search = $request->input('search');
+
+        $kepemilikans = KepemilikanKendaraan::with(['asn.user', 'kendaraan'])
+            ->where('status', 'nonaktif')
+            ->when($search, function ($query, $search) {
+                $query->whereHas('asn.user', function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%");
+                })->orWhereHas('kendaraan', function ($q) use ($search) {
+                    $q->where('merk', 'like', "%{$search}%")
+                        ->orWhere('no_polisi', 'like', "%{$search}%");
+                });
+            })
+            ->latest()
+            ->get();
+
+        return view('pages.admin.kepemilikan.inactive', compact('kepemilikans'));
+    }
+
 
     public function create()
     {
@@ -26,7 +61,7 @@ class KepemilikanKendaraanController extends Controller
             $q->where('status', 'aktif');
         })->get();
 
-        return view('pages.admin.kepemilkan.create', compact('asns', 'kendaraans'));
+        return view('pages.admin.kepemilikan.create', compact('asns', 'kendaraans'));
     }
 
     public function store(Request $request)
