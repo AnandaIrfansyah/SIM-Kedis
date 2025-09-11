@@ -93,23 +93,36 @@
     <section class="section__container" id="scan-result" style="display:none;">
         <h2 class="section__header">DATA KENDARAAN DINAS / OPERASIONAL</h2>
         <h4>DINAS PERHUBUNGAN KOTA CIREBON - {{ date('Y') }}</h4>
+
         <div class="kendaraan-card">
-            <div class="kendaraan-foto">
-                <img id="fotoKendaraan" src="" alt="Foto Kendaraan">
-            </div>
-            <div class="kendaraan-detail">
-                <h1 id="noPolisi"></h1>
-                <p><span id="jenis">-</span></p>
-                <p><span id="merk">-</span></p>
-                <p><span id="tahun">-</span></p>
-                <p><span id="noRangka">-</span></p>
-                <p><span id="noMesin">-</span></p>
-                <p><span id="noBpkb">-</span></p>
-                <p><span id="pemilik">-</span></p>
-                <p><span id="unitKerja">-</span></p>
+            <!-- Plat nomor di atas, full width -->
+            <h1 id="noPolisi"></h1>
+
+            <!-- Body: foto + detail -->
+            <div class="kendaraan-body">
+                <div class="kendaraan-foto">
+                    <img id="fotoKendaraan" src="foto.jpg" alt="Foto Kendaraan">
+                </div>
+
+                <div class="kendaraan-info-2col">
+                    <div class="col">
+                        <div class="row"><span class="label">Jenis Kendaraan</span><span id="jenis">-</span>
+                        </div>
+                        <div class="row"><span class="label">Merk / Tipe</span><span id="merk">-</span></div>
+                        <div class="row"><span class="label">Tahun</span><span id="tahun">-</span></div>
+                        <div class="row"><span class="label">No. Rangka</span><span id="noRangka">-</span></div>
+                    </div>
+                    <div class="col">
+                        <div class="row"><span class="label">No. Mesin</span><span id="noMesin">-</span></div>
+                        <div class="row"><span class="label">No. BPKB</span><span id="noBpkb">-</span></div>
+                        <div class="row"><span class="label">Pemegang</span><span id="pemilik">-</span></div>
+                        <div class="row"><span class="label">Unit Kerja</span><span id="unitKerja">-</span></div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
+
 
     <!-- Modal Scan QR -->
     <div class="modal" id="scanModal"

@@ -19,7 +19,8 @@ Route::get('login', [LoginController::class, 'showLogin'])->name('login');
 Route::post('login', [LoginController::class, 'login'])->name('login.post');
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/scan/{qrCode}', [PublicScanController::class, 'show'])->name('scan.kendaraan');
+// routes/web.php
+Route::get('/scan/{qrCode}', [PublicScanController::class, 'scanqr'])->name('scan.qr');
 
 // Update Password (semua user login bisa akses)
 Route::middleware('auth')->group(function () {

@@ -8,33 +8,38 @@ use App\Models\Kendaraan;
 
 class PublicScanController extends Controller
 {
-    public function show($qrCode)
+    public function scanqr($qrCode)
     {
         try {
             $kendaraan = Kendaraan::with('kepemilikanAktif.asn')
                 ->where('qr_code', $qrCode)
                 ->firstOrFail();
 
+            // fungsi untuk masking data sensitif
+            $mask = function ($value) {
+                if (!$value) return null;
+                $len = strlen($value);
+                if ($len <= 3) return $value; 
+                return substr($value, 0, 3) . str_repeat('*', $len - 3);
+            };
+
             return response()->json([
+                'foto'       => $kendaraan->foto ? asset('storage/' . $kendaraan->foto) : null,
                 'no_polisi'  => $kendaraan->no_polisi,
                 'jenis'      => $kendaraan->jenis,
                 'merk'       => $kendaraan->merk . ' / ' . $kendaraan->tipe,
                 'tahun'      => $kendaraan->tahun,
-                'no_rangka'  => $kendaraan->no_rangka
-                    ? substr($kendaraan->no_rangka, 0, 6) . '**********'
-                    : '-',
-                'no_mesin'   => $kendaraan->no_mesin
-                    ? substr($kendaraan->no_mesin, 0, 3) . '*******'
-                    : '-',
-                'no_bpkb'    => $kendaraan->no_bpkb
-                    ? substr($kendaraan->no_bpkb, 0, 2) . '*****' . substr($kendaraan->no_bpkb, -2)
-                    : '-',
-                'pemilik'    => optional($kendaraan->kepemilikanAktif?->asn)->nama ?? 'Telah Berakhir',
-                'unit_kerja' => optional($kendaraan->kepemilikanAktif?->asn)->jabatan ?? 'Telah Berakhir',
-                'foto'       => $kendaraan->foto ? asset('storage/' . $kendaraan->foto) : null,
+                'no_rangka'  => $mask($kendaraan->no_rangka),
+                'no_mesin'   => $mask($kendaraan->no_mesin),
+                'no_bpkb'    => $mask($kendaraan->no_bpkb),
+                'pemilik'    => optional(optional($kendaraan->kepemilikanAktif)->asn)->nama ?? 'Telah Berakhir',
+                'unit_kerja' => optional(optional($kendaraan->kepemilikanAktif)->asn)->jabatan ?? 'Telah Berakhir',
             ]);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return response()->json(['error' => 'Data tidak ditemukan'], 404);
+            return response()->json(['error' => 'Data kendaraan tidak ditemukan'], 404);
+        } catch (\Exception $e) {
+            // biar kelihatan jelas errornya saat debugging
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 }

@@ -19,7 +19,7 @@
                 @csrf
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input id="email" type="text" class="form-control" name="email" placeholder="email"
+                    <input id="email" type="text" class="form-control" name="email" placeholder="Email"
                         value="{{ old('email') }}" tabindex="1" required autofocus>
                     <div class="invalid-feedback">
                         Please fill in your email

@@ -105,9 +105,7 @@ document
         e.preventDefault();
         document.getElementById("scanModal").style.display = "flex";
 
-        // Hapus pesan error lama
-        let errorMsg = document.getElementById("scanErrorMsg");
-        if (errorMsg) errorMsg.remove();
+        clearScanError();
 
         html5QrCode = new Html5Qrcode("reader");
 
@@ -117,10 +115,12 @@ document
                 // Buat dropdown pilih kamera
                 let cameraSelect = document.createElement("select");
                 cameraSelect.id = "cameraSelect";
-                cameraSelect.style.display = "block";
-                cameraSelect.style.margin = "10px auto";
-                cameraSelect.style.padding = "8px";
-                cameraSelect.style.width = "100%";
+                Object.assign(cameraSelect.style, {
+                    display: "block",
+                    margin: "10px auto",
+                    padding: "8px",
+                    width: "100%",
+                });
 
                 devices.forEach((d, idx) => {
                     let option = document.createElement("option");
@@ -132,22 +132,20 @@ document
                 // Sisipkan dropdown di atas tombol tutup
                 const modalContent = document.querySelector("#scanModal div");
                 const closeBtn = modalContent.querySelector("button");
-                // Hapus dropdown lama jika ada
                 let oldSelect = document.getElementById("cameraSelect");
                 if (oldSelect) oldSelect.remove();
                 modalContent.insertBefore(cameraSelect, closeBtn);
 
-                // Kamera default pertama
+                // Kamera default
                 currentCameraId = cameraSelect.value;
                 startScanner(currentCameraId);
 
-                // Ganti kamera saat user pilih
                 cameraSelect.addEventListener("change", function () {
                     currentCameraId = this.value;
                     restartScanner(currentCameraId);
                 });
             } else {
-                showScanError("Perangkat tidak memiliki kamera yang tersedia.");
+                showScanError("Perangkat tidak memiliki kamera.");
             }
         } catch (err) {
             showScanError(
@@ -156,145 +154,88 @@ document
         }
     });
 
-function showScanError(msg, showCloseBtn = false) {
+function clearScanError() {
     document.querySelectorAll("#scanErrorMsg").forEach((el) => el.remove());
+}
 
+function showScanError(msg) {
+    clearScanError();
     let modalContent = document.querySelector("#scanModal div");
     let errorMsg = document.createElement("div");
     errorMsg.id = "scanErrorMsg";
-    errorMsg.style.color = "red";
-    errorMsg.style.textAlign = "center";
-    errorMsg.style.margin = "10px 0";
+    Object.assign(errorMsg.style, {
+        color: "red",
+        textAlign: "center",
+        margin: "10px 0",
+    });
     errorMsg.innerHTML = msg;
-    if (showCloseBtn) {
-        let btn = document.createElement("button");
-        btn.textContent = "Tutup";
-        btn.className = "btn";
-        btn.style.marginTop = "10px";
-        btn.onclick = function (e) {
-            e.stopPropagation(); // Agar tidak ikut event modal
-            closeScanner();
-        };
-        errorMsg.appendChild(btn);
-    }
     modalContent.insertBefore(errorMsg, modalContent.firstChild);
 }
 
-// Pastikan juga di startScanner dan restartScanner selalu hapus error lama
-function maskData(data, visible = 4) {
-    if (!data) return "-";
-    return (
-        data.slice(0, visible) + "*".repeat(Math.max(data.length - visible, 0))
-    );
-}
-
 function startScanner(cameraId) {
-    document.querySelectorAll("#scanErrorMsg").forEach((el) => el.remove());
-
-    // Bersihkan pesan error sebelum mulai scanner
-    let errorMsg = document.getElementById("scanErrorMsg");
-    if (errorMsg) errorMsg.remove();
+    clearScanError();
 
     html5QrCode
-        .start(cameraId, { fps: 10, qrbox: 250 }, (decodedText) => {
-            html5QrCode.stop().then(() => {
-                document.getElementById("scanModal").style.display = "none";
-            });
+        .start(
+            cameraId,
+            { fps: 10, qrbox: 250 },
+            (decodedText) => {
+                // Stop scanner dulu
+                html5QrCode.stop().then(() => {
+                    html5QrCode = null;
+                    document.getElementById("scanModal").style.display = "none";
 
-            fetch(decodedText)
-                .then((res) => res.json())
-                .then((data) => {
-                    if (data.error) {
-                        showScanError("Data Tidak Ditemukan: " + data.error);
-                        return;
-                    }
+                    // Ambil hanya QR code ID (misal: KEND-XXXX dari URL atau langsung kode)
+                    let qrCode = decodedText.split("/").pop();
 
-                    document.getElementById("scan-result").style.display =
-                        "block";
-                    document.querySelector(".kendaraan-detail").innerHTML = `
-                        <h1 style="color: #0b3d91">${data.no_polisi}</h1>
-                        <div class="kendaraan-info">
-                            <p><b>Jenis Kendaraan</b> : ${data.jenis}</p>
-                            <p><b>Merk</b> : ${data.merk} / ${data.tipe}</p>
-                            <p><b>Tahun</b> : ${data.tahun}</p>
-                            <p><b>No. Rangka</b> : ${maskData(
-                                data.no_rangka,
-                                6
-                            )}</p>
-                            <p><b>No. Mesin</b> : ${maskData(
-                                data.no_mesin,
-                                4
-                            )}</p>
-                            <p><b>No. BPKB</b> : ${maskData(
-                                data.no_bpkb,
-                                2
-                            )}</p>
-                            <p><b>Pemegang</b> : ${data.pemilik}</p>
-                            <p><b>Unit Kerja</b> : ${data.unit_kerja ?? "-"}</p>
-                        </div>
-                    `;
-
-                    if (data.foto) {
-                        document.getElementById("fotoKendaraan").src =
-                            data.foto;
-                    } else {
-                        document.getElementById("fotoKendaraan").src =
-                            "pages/img/no-image.png";
-                    }
-                })
-                .catch(() => {
-                    showScanError(
-                        "QR Code Tidak Valid. Gagal mengambil data kendaraan."
-                    );
+                    // Fetch data kendaraan
+                    fetch(`/scan/${qrCode}`)
+                        .then((res) => res.json())
+                        .then((data) => {
+                            if (data.error) {
+                                Swal.fire("Error", data.error, "error");
+                            } else {
+                                tampilkanHasil(data);
+                            }
+                        })
+                        .catch(() => {
+                            Swal.fire(
+                                "Error",
+                                "Gagal mengambil data kendaraan",
+                                "error"
+                            );
+                        });
                 });
-        })
+            },
+            (errorMessage) => {
+                // error scanning (bisa diabaikan)
+            }
+        )
         .catch((err) => {
-            showScanError(
-                "Terjadi kesalahan saat membuka kamera: " + err,
-                true
-            );
+            showScanError("Gagal membuka kamera: " + err);
             html5QrCode = null;
             document.getElementById("reader").innerHTML = "";
         });
 }
 
 function restartScanner(cameraId) {
-    document.querySelectorAll("#scanErrorMsg").forEach((el) => el.remove());
-
-    // Bersihkan pesan error sebelum restart scanner
-    let errorMsg = document.getElementById("scanErrorMsg");
-    if (errorMsg) errorMsg.remove();
-
+    clearScanError();
     if (html5QrCode) {
-        html5QrCode
-            .stop()
-            .then(() => {
-                document.getElementById("reader").innerHTML = "";
-                html5QrCode = new Html5Qrcode("reader");
-                startScanner(cameraId);
-            })
-            .catch(() => {
-                document.getElementById("reader").innerHTML = "";
-                html5QrCode = new Html5Qrcode("reader");
-                startScanner(cameraId);
-            });
-    } else {
-        document.getElementById("reader").innerHTML = "";
-        html5QrCode = new Html5Qrcode("reader");
-        startScanner(cameraId);
+        html5QrCode.stop().finally(() => {
+            document.getElementById("reader").innerHTML = "";
+            html5QrCode = new Html5Qrcode("reader");
+            startScanner(cameraId);
+        });
     }
 }
 
 function closeScanner() {
+    document.getElementById("scanModal").style.display = "none";
+    clearScanError();
     if (html5QrCode) {
-        html5QrCode.stop().then(() => {
-            document.getElementById("scanModal").style.display = "none";
-        });
-    } else {
-        document.getElementById("scanModal").style.display = "none";
+        html5QrCode.stop().catch(() => {});
+        html5QrCode = null;
     }
-    let errorMsg = document.getElementById("scanErrorMsg");
-    if (errorMsg) errorMsg.remove();
 }
 
 // Klik luar modal menutup
@@ -304,3 +245,25 @@ window.addEventListener("click", function (e) {
         closeScanner();
     }
 });
+
+// Fungsi tampilkan hasil + auto scroll
+function tampilkanHasil(data) {
+    document.getElementById("scan-result").style.display = "block";
+
+    document.getElementById("fotoKendaraan").src = data.foto ?? "";
+    document.getElementById("noPolisi").innerText = data.no_polisi ?? "-";
+    document.getElementById("jenis").innerText = data.jenis ?? "-";
+    document.getElementById("merk").innerText = data.merk ?? "-";
+    document.getElementById("tahun").innerText = data.tahun ?? "-";
+    document.getElementById("noRangka").innerText = data.no_rangka ?? "-";
+    document.getElementById("noMesin").innerText = data.no_mesin ?? "-";
+    document.getElementById("noBpkb").innerText = data.no_bpkb ?? "-";
+    document.getElementById("pemilik").innerText = data.pemilik ?? "-";
+    document.getElementById("unitKerja").innerText = data.unit_kerja ?? "-";
+
+    // Auto scroll ke hasil
+    document.getElementById("scan-result").scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+    });
+}
