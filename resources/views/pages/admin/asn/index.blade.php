@@ -11,7 +11,7 @@
         <section class="section">
             <div class="section-header d-flex justify-content-between align-items-center">
                 <h1>Data Pegawai</h1>
-                <a href="{{ route('asn.create') }}" class="btn btn-primary">
+                <a href="{{ route('asn.create') }}" class="btn btn-primary" title="Tambah Data Pegawai">
                     <i class="fas fa-plus"></i> Tambah Data
                 </a>
             </div>
@@ -22,7 +22,8 @@
                     <div class="card-body">
                         <div class="mb-3 d-flex justify-content-between align-items-center">
                             <!-- Tombol Tambah Data di kiri -->
-                            <a href="{{ route('asn.inactive') }}" class="btn btn-danger">
+                            <a href="{{ route('asn.inactive') }}" class="btn btn-danger"
+                                title="Riwayat Pegawai Tidak Aktif">
                                 <i class="fas fa-history"></i> Riwayat Pegawai Tidak Aktif
                             </a>
 
@@ -32,7 +33,7 @@
                                     <input type="text" class="form-control" placeholder="Cari Nama" name="name"
                                         value="{{ request('name') }}">
                                     <div class="input-group-append">
-                                        <button class="btn btn-primary">
+                                        <button class="btn btn-primary" title="Cari Pegawai">
                                             <i class="fas fa-search"></i>
                                         </button>
                                     </div>
@@ -62,20 +63,37 @@
                                             <td>{{ $item->no_hp ?? '-' }}</td>
                                             <td>{{ $item->jabatan ?? '-' }}</td>
                                             <td>
-                                                <span
-                                                    class="badge badge-{{ $item->status == 'aktif' ? 'success' : 'secondary' }}">
-                                                    {{ ucfirst($item->status) }}
-                                                </span>
+                                                <div class="dropdown">
+                                                    <button
+                                                        class="btn btn-sm dropdown-toggle
+                                                        {{ $item->status == 'aktif' ? 'btn-success' : 'btn-danger' }}"
+                                                        type="button" id="dropdownMenuButton{{ $item->id }}"
+                                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        {{ ucfirst($item->status) }}
+                                                    </button>
+                                                    <div class="dropdown-menu"
+                                                        aria-labelledby="dropdownMenuButton{{ $item->id }}">
+                                                        <form action="{{ route('asn.update-status', $item->id) }}"
+                                                            method="POST" class="form-update-status d-inline">
+                                                            @csrf
+                                                            @method('PATCH')
+                                                            <input type="hidden" name="status" value="nonaktif">
+                                                            <button type="submit" class="dropdown-item">Nonaktif</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td>
-                                                <a href="{{ route('asn.edit', $item->id) }}" class="btn btn-sm btn-info">
+                                                <a href="{{ route('asn.edit', $item->id) }}" class="btn btn-sm btn-info"
+                                                    title="Edit Data Pegawai">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 <form action="{{ route('asn.destroy', $item->id) }}" method="POST"
                                                     class="form-delete d-inline-block">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger">
+                                                    <button type="submit" class="btn btn-sm btn-danger"
+                                                        title="Hapus Data Pegawai">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
                                                 </form>
@@ -118,9 +136,7 @@
                 showConfirmButton: false
             });
         @endif
-    </script>
 
-    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const deleteForms = document.querySelectorAll('.form-delete');
 
@@ -139,6 +155,33 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
                             form.submit(); // submit form yang benar
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const statusForms = document.querySelectorAll('.form-update-status');
+
+            statusForms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault(); // stop submit dulu
+
+                    Swal.fire({
+                        title: 'Ubah Status Pegawai?',
+                        text: "Status pegawai akan diperbarui.",
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: '#28a745',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Ya, ubah!',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit(); // submit kalau user setuju
                         }
                     });
                 });

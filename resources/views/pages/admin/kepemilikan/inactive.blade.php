@@ -36,7 +36,7 @@
         <section class="section">
             <div class="section-header d-flex justify-content-between align-items-center">
                 <h1>Riwayat Kepemilikan Kendaraan</h1>
-                <a href="{{ route('kepemilikan.index') }}" class="btn btn-primary">
+                <a href="{{ route('kepemilikan.index') }}" class="btn btn-primary" title="Kembali ke Data Aktif">
                     <i class="fas fa-arrow-left"></i> Kembali ke Kepemilikan Aktif
                 </a>
             </div>
@@ -52,7 +52,7 @@
                                         <input type="text" class="form-control" placeholder="Cari ASN / Merk / No Polisi"
                                             name="search" value="{{ request('search') }}">
                                         <div class="input-group-append">
-                                            <button class="btn btn-primary">
+                                            <button class="btn btn-primary" title="Cari Kepemilikan">
                                                 <i class="fas fa-search"></i>
                                             </button>
                                         </div>
@@ -90,11 +90,11 @@
                                                 ) ?? '-' }}
                                             </td>
                                             <td>
-                                                <span class="badge badge-secondary">Nonaktif</span>
+                                                <span class="badge badge-danger">Nonaktif</span>
                                             </td>
                                             <td>
                                                 <button type="button" class="btn btn-sm btn-info" data-toggle="modal"
-                                                    data-target="#detailModal{{ $item->id }}">
+                                                    data-target="#detailModal{{ $item->id }}" title="Lihat Detail Kepemilikan">
                                                     <i class="fas fa-eye"></i> Detail
                                                 </button>
                                             </td>
@@ -183,57 +183,13 @@
                                         <h6 class="mb-0">Detail Kendaraan</h6>
                                     </div>
                                     <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-sm-6 mb-2">
-                                                <label class="font-weight-bold text-info mb-0">Merk</label>
-                                                <p class="mb-0">{{ $item->kendaraan->merk }}</p>
-                                            </div>
-                                            <div class="col-sm-6 mb-2">
-                                                <label class="font-weight-bold text-info mb-0">Tipe</label>
-                                                <p class="mb-0">{{ $item->kendaraan->tipe ?? '-' }}</p>
-                                            </div>
-                                            <div class="col-sm-6 mb-2">
-                                                <label class="font-weight-bold text-info mb-0">No Polisi</label>
-                                                <p class="mb-0">{{ $item->kendaraan->no_polisi }}</p>
-                                            </div>
-                                            <div class="col-sm-6 mb-2">
-                                                <label class="font-weight-bold text-info mb-0">Tahun</label>
-                                                <p class="mb-0">{{ $item->kendaraan->tahun ?? '-' }}</p>
-                                            </div>
-                                            {{-- <div class="col-sm-6 mb-2">
-                                                <label class="font-weight-bold text-info mb-0">No Rangka</label>
-                                                <p class="mb-0">{{ $item->kendaraan->no_rangka ?? '-' }}</p>
-                                            </div>
-                                            <div class="col-sm-6 mb-2">
-                                                <label class="font-weight-bold text-info mb-0">No Mesin</label>
-                                                <p class="mb-0">{{ $item->kendaraan->no_mesin ?? '-' }}</p>
-                                            </div> --}}
-                                            <div class="col-sm-6 mb-2">
-                                                <label class="font-weight-bold text-info mb-0">Jenis</label>
-                                                <p class="mb-0">{{ ucfirst($item->kendaraan->jenis) }}</p>
-                                            </div>
-                                            <div class="col-sm-6 mb-2">
-                                                <label class="font-weight-bold text-info mb-0">Status</label>
-                                                <p class="mb-0">
-                                                    <span
-                                                        class="badge badge-pill {{ $item->kendaraan->status == 'aktif' ? 'badge-success' : 'badge-secondary' }}">
-                                                        {{ ucfirst($item->kendaraan->status) }}
-                                                    </span>
-                                                </p>
-                                            </div>
-                                            <div class="col-sm-6 mb-2">
-                                                <label class="font-weight-bold text-info mb-0">Jatuh Tempo Pajak</label>
-                                                <p class="mb-0">
-                                                    {{ \Carbon\Carbon::parse($item->kendaraan->jatuh_tempo_pajak)->translatedFormat('l, d F Y') }}
-                                                </p>
-                                            </div>
-                                            <div class="col-sm-6 mb-2">
-                                                <label class="font-weight-bold text-info mb-0">Jatuh Tempo STNK</label>
-                                                <p class="mb-0">
-                                                    {{ \Carbon\Carbon::parse($item->kendaraan->jatuh_tempo_stnk)->translatedFormat('l, d F Y') }}
-                                                </p>
-                                            </div>
-                                        </div>
+                                        <p><strong>Merk:</strong> {{ $item->kendaraan->merk }}</p>
+                                        <p><strong>Tipe:</strong> {{ $item->kendaraan->tipe ?? '-' }}</p>
+                                        <p><strong>No Polisi:</strong> {{ $item->kendaraan->no_polisi }}</p>
+                                        <p><strong>Tahun:</strong> {{ $item->kendaraan->tahun ?? '-' }}</p>
+                                        <p><strong>Status:</strong>
+                                            <span class="badge badge-secondary">Nonaktif</span>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -271,11 +227,8 @@
                                                     <i class="fas fa-qrcode mr-2"></i>QR Code
                                                 </h6>
                                                 @if ($item->kendaraan->qr_code)
-                                                    <img src="{{ asset('storage/qr_code/' . $item->kendaraan->qr_code . '.png') }}"
-                                                        alt="QR Code" class="img-thumbnail preview-media"
-                                                        style="max-height: 200px; cursor: pointer;"
-                                                        data-src="{{ asset('storage/qr_code/' . $item->kendaraan->qr_code . '.png') }}"
-                                                        data-toggle="tooltip" title="Klik untuk memperbesar">
+                                                    <img src="{{ asset('storage/qr_code/' . $item->kendaraan->id . '.png') }}"
+                                                        class="img-thumbnail" style="max-height: 200px;">
                                                 @else
                                                     <div class="bg-light p-5 rounded">
                                                         <i class="fas fa-qrcode fa-3x text-muted mb-2"></i>
