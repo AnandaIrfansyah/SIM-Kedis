@@ -9,6 +9,14 @@
             text-align: center;
             margin: 10px;
         }
+        .kop-surat {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .kop-surat img {
+            max-width: 100%;
+            height: auto;
+        }
         .grid {
             display: table;
             width: 100%;
@@ -29,7 +37,7 @@
         .qr {
             margin-bottom: 8px;
         }
-        img {
+        img.qr-img {
             width: 130px;
             height: 130px;
         }
@@ -43,6 +51,11 @@
     </style>
 </head>
 <body>
+    <!-- Kop Surat -->
+    <div class="kop-surat">
+        <img src="{{ public_path('img/kop_surat_header.png') }}" alt="Kop Surat">
+    </div>
+
     <h2>Daftar QR Code Kendaraan</h2>
     <div class="grid">
         @foreach($kendaraans->chunk(3) as $chunk)
@@ -54,7 +67,7 @@
                                 $qrPath = 'storage/qr_code/' . $kendaraan->qr_code . '.png';
                             @endphp
                             @if(file_exists(public_path($qrPath)))
-                                <img src="{{ public_path($qrPath) }}" alt="QR {{ $kendaraan->no_polisi }}">
+                                <img class="qr-img" src="{{ public_path($qrPath) }}" alt="QR {{ $kendaraan->no_polisi }}">
                             @endif
                         </div>
                         <div class="plat">{{ $kendaraan->no_polisi }}</div>

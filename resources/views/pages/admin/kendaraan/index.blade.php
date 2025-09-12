@@ -18,10 +18,11 @@
             <div class="section-header d-flex justify-content-between align-items-center">
                 <h1>Data Kendaraan</h1>
                 <div>
-                    <a href="{{ route('kendaraan.create') }}" class="btn btn-primary">
+                    <a href="{{ route('kendaraan.create') }}" class="btn btn-primary" title="Tambah Kendaraan">
                         <i class="fas fa-plus"></i> Tambah Kendaraan
                     </a>
-                    <a href="{{ route('kendaraan.cetak.qrcode') }}" target="_blank" class="btn btn-danger">
+                    <a href="{{ route('kendaraan.cetak.qrcode') }}" target="_blank" class="btn btn-danger"
+                        title="Cetak QR Code Kendaraan">
                         <i class="fas fa-print"></i> Cetak QR Code
                     </a>
 
@@ -33,7 +34,8 @@
                     <div class="card-body">
                         <div class="mb-3 d-flex justify-content-between align-items-center">
                             <!-- Tombol Riwayat Nonaktif -->
-                            <a href="{{ route('kendaraan.inactive') }}" class="btn btn-danger">
+                            <a href="{{ route('kendaraan.inactive') }}" class="btn btn-danger"
+                                title="Riwayat Kendaraan Nonaktif">
                                 <i class="fas fa-history"></i> Riwayat Kendaraan Nonaktif
                             </a>
 
@@ -71,21 +73,37 @@
                                             <td>{{ $item->no_polisi }}</td>
                                             <td>{{ $item->tahun }}</td>
                                             <td>
-                                                <span
-                                                    class="badge badge-{{ $item->status == 'aktif' ? 'success' : 'secondary' }}">
-                                                    {{ ucfirst($item->status) }}
-                                                </span>
+                                                <div class="dropdown">
+                                                    <button
+                                                        class="btn btn-sm dropdown-toggle
+                                                        {{ $item->status == 'aktif' ? 'btn-success' : 'btn-danger' }}"
+                                                        type="button" id="dropdownMenuButton{{ $item->id }}"
+                                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        {{ ucfirst($item->status) }}
+                                                    </button>
+                                                    <div class="dropdown-menu"
+                                                        aria-labelledby="dropdownMenuButton{{ $item->id }}">
+                                                        <form action="{{ route('kendaraan.update-status', $item->id) }}"
+                                                            method="POST" class="form-update-status d-inline">
+                                                            @csrf
+                                                            @method('PATCH')
+                                                            <input type="hidden" name="status" value="nonaktif">
+                                                            <button type="submit" class="dropdown-item">Nonaktif</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td>
                                                 <!-- Tombol Show -->
                                                 <button type="button" class="btn btn-sm btn-success" data-toggle="modal"
-                                                    data-target="#showModal{{ $item->id }}">
+                                                    data-target="#showModal{{ $item->id }}"
+                                                    title="Lihat Detail Kendaraan">
                                                     <i class="fas fa-eye"></i>
                                                 </button>
 
                                                 <!-- Tombol Edit -->
                                                 <a href="{{ route('kendaraan.edit', $item->id) }}"
-                                                    class="btn btn-sm btn-info">
+                                                    class="btn btn-sm btn-info" title="Edit Kendaraan">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
 
@@ -94,7 +112,8 @@
                                                     class="form-delete d-inline-block">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger">
+                                                    <button type="submit" class="btn btn-sm btn-danger"
+                                                        title="Hapus Kendaraan">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
                                                 </form>
@@ -137,7 +156,8 @@
                             <div class="col-md-6 mb-3">
                                 <div class="card border-0 shadow-sm">
                                     <div class="card-body p-3">
-                                        <h6 class="text-primary mb-3"><i class="fas fa-info-circle"></i> Informasi Kendaraan
+                                        <h6 class="text-primary mb-3"><i class="fas fa-info-circle"></i> Informasi
+                                            Kendaraan
                                         </h6>
                                         <table class="table table-sm table-borderless mb-0">
                                             <tr>
@@ -168,7 +188,7 @@
                                                 <th>Status</th>
                                                 <td>
                                                     <span
-                                                        class="badge badge-{{ $item->status == 'aktif' ? 'success' : 'secondary' }}">
+                                                        class="badge badge-{{ $item->status == 'aktif' ? 'success' : 'danger' }}">
                                                         {{ ucfirst($item->status) }}
                                                     </span>
                                                 </td>
@@ -217,7 +237,7 @@
         </div>
     @endforeach
 
-     <div class="modal fade" id="mediaPreviewModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="mediaPreviewModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -271,6 +291,34 @@
             });
         });
     </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const statusForms = document.querySelectorAll('.form-update-status');
+
+            statusForms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault(); // stop submit dulu
+
+                    Swal.fire({
+                        title: 'Ubah Status Pegawai?',
+                        text: "Status pegawai akan diperbarui.",
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: '#28a745',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Ya, ubah!',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit(); // submit kalau user setuju
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const previewMedia = document.querySelectorAll('.preview-media');

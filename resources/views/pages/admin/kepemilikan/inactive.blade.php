@@ -36,7 +36,7 @@
         <section class="section">
             <div class="section-header d-flex justify-content-between align-items-center">
                 <h1>Riwayat Kepemilikan Kendaraan</h1>
-                <a href="{{ route('kepemilikan.index') }}" class="btn btn-primary">
+                <a href="{{ route('kepemilikan.index') }}" class="btn btn-primary" title="Kembali ke Data Aktif">
                     <i class="fas fa-arrow-left"></i> Kembali ke Kepemilikan Aktif
                 </a>
             </div>
@@ -52,7 +52,7 @@
                                         <input type="text" class="form-control" placeholder="Cari ASN / Merk / No Polisi"
                                             name="search" value="{{ request('search') }}">
                                         <div class="input-group-append">
-                                            <button class="btn btn-primary">
+                                            <button class="btn btn-primary" title="Cari Kepemilikan">
                                                 <i class="fas fa-search"></i>
                                             </button>
                                         </div>
@@ -90,11 +90,11 @@
                                                 ) ?? '-' }}
                                             </td>
                                             <td>
-                                                <span class="badge badge-secondary">Nonaktif</span>
+                                                <span class="badge badge-danger">Nonaktif</span>
                                             </td>
                                             <td>
                                                 <button type="button" class="btn btn-sm btn-info" data-toggle="modal"
-                                                    data-target="#detailModal{{ $item->id }}">
+                                                    data-target="#detailModal{{ $item->id }}" title="Lihat Detail Kepemilikan">
                                                     <i class="fas fa-eye"></i> Detail
                                                 </button>
                                             </td>
@@ -121,7 +121,7 @@
             aria-labelledby="detailModalLabel{{ $item->id }}" aria-hidden="true">
             <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
                 <div class="modal-content">
-                    <div class="modal-header bg-danger text-white">
+                    <div class="modal-header bg-primary text-white">
                         <h5 class="modal-title" id="detailModalLabel{{ $item->id }}">
                             <i class="fas fa-car mr-2 mb-3"></i>Detail Kepemilikan Kendaraan
                         </h5>
@@ -161,7 +161,7 @@
                                         <p><strong>No Polisi:</strong> {{ $item->kendaraan->no_polisi }}</p>
                                         <p><strong>Tahun:</strong> {{ $item->kendaraan->tahun ?? '-' }}</p>
                                         <p><strong>Status:</strong>
-                                            <span class="badge badge-secondary">Nonaktif</span>
+                                            <span class="badge badge-danger">Nonaktif</span>
                                         </p>
                                     </div>
                                 </div>
@@ -189,7 +189,7 @@
                                             <div class="col-md-6">
                                                 <h6 class="text-info mb-3">QR Code</h6>
                                                 @if ($item->kendaraan->qr_code)
-                                                    <img src="{{ asset('storage/qr_code/' . $item->kendaraan->id . '.png') }}"
+                                                    <img src="{{ asset('storage/qr_code/' . $item->kendaraan->qr_code . '.png') }}"
                                                         class="img-thumbnail" style="max-height: 200px;">
                                                 @else
                                                     <p class="text-muted">Belum ada QR Code</p>

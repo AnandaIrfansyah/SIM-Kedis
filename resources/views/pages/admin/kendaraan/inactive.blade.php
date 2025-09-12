@@ -7,7 +7,7 @@
         <section class="section">
             <div class="section-header d-flex justify-content-between align-items-center">
                 <h1>Data Kendaraan Nonaktif</h1>
-                <a href="{{ route('kendaraan.index') }}" class="btn btn-primary">
+                <a href="{{ route('kendaraan.index') }}" class="btn btn-primary" title="Kembali ke Kendaraan Aktif">
                     <i class="fas fa-arrow-left"></i> Kembali ke Kendaraan Aktif
                 </a>
             </div>
@@ -22,7 +22,7 @@
                                     <input type="text" class="form-control" placeholder="Cari Merk / No Polisi"
                                         name="search" value="{{ request('search') }}">
                                     <div class="input-group-append">
-                                        <button class="btn btn-primary">
+                                        <button class="btn btn-primary" title="Cari Kendaraan">
                                             <i class="fas fa-search"></i>
                                         </button>
                                     </div>
@@ -50,30 +50,45 @@
                                             <td>{{ $item->no_polisi }}</td>
                                             <td>{{ $item->tahun }}</td>
                                             <td>
-                                                <span class="badge badge-secondary">Nonaktif</span>
+                                                <div class="dropdown">
+                                                    <button
+                                                        class="btn btn-sm dropdown-toggle
+                                                        {{ $item->status == 'aktif' ? 'btn-success' : 'btn-danger' }}"
+                                                        type="button" id="dropdownMenuButton{{ $item->id }}"
+                                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        {{ ucfirst($item->status) }}
+                                                    </button>
+                                                    <div class="dropdown-menu"
+                                                        aria-labelledby="dropdownMenuButton{{ $item->id }}">
+                                                        <form action="{{ route('kendaraan.update-status', $item->id) }}"
+                                                            method="POST" class="form-update-status d-inline">
+                                                            @csrf
+                                                            @method('PATCH')
+                                                            <input type="hidden" name="status" value="aktif">
+                                                            <button type="submit" class="dropdown-item">Aktif</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td>
                                                 <!-- Tombol Detail -->
                                                 <button type="button" class="btn btn-sm btn-success" data-toggle="modal"
-                                                    data-target="#showModal{{ $item->id }}">
+                                                    data-target="#showModal{{ $item->id }}"
+                                                    title="Lihat Detail Kendaraan">
                                                     <i class="fas fa-eye"></i>
                                                 </button>
-
-                                                <!-- Tombol Edit -->
-                                                <a href="{{ route('kendaraan.edit', $item->id) }}"
-                                                    class="btn btn-sm btn-info">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
 
                                                 <!-- Tombol Delete -->
                                                 <form action="{{ route('kendaraan.destroy', $item->id) }}" method="POST"
                                                     class="form-delete d-inline-block">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger">
+                                                    <button type="submit" class="btn btn-sm btn-danger"
+                                                        title="Hapus Kendaraan">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
                                                 </form>
+
                                             </td>
                                         </tr>
                                     @empty
@@ -141,7 +156,7 @@
                                             </tr>
                                             <tr>
                                                 <th>Status</th>
-                                                <td><span class="badge badge-secondary">Nonaktif</span></td>
+                                                <td><span class="badge badge-danger">Nonaktif</span></td>
                                             </tr>
                                         </table>
                                     </div>
@@ -185,3 +200,68 @@
         </div>
     @endforeach
 @endsection
+
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        @if (session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: '{{ session('success') }}',
+                timer: 3000,
+                showConfirmButton: false
+            });
+        @endif
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteForms = document.querySelectorAll('.form-delete');
+            deleteForms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    Swal.fire({
+                        title: 'Yakin ingin menghapus?',
+                        text: "Data tidak bisa dikembalikan setelah dihapus!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Ya, hapus!',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const statusForms = document.querySelectorAll('.form-update-status');
+
+            statusForms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault(); // stop submit dulu
+
+                    Swal.fire({
+                        title: 'Ubah Status Pegawai?',
+                        text: "Status pegawai akan diperbarui.",
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: '#28a745',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Ya, ubah!',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit(); // submit kalau user setuju
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+@endpush
