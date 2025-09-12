@@ -21,7 +21,6 @@ Route::post('login', [LoginController::class, 'login'])->name('login.post');
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 // SCAN QR Code
-Route::get('/scan/{qrCode}', [PublicScanController::class, ''])->name('scan.api');
 Route::get('/api/scan/{qrCode}', [PublicScanController::class, 'scanApi'])->name('scan.api');
 Route::get('/scan/{qrCode}', [PublicScanController::class, 'scanView'])->name('scan.view');
 
