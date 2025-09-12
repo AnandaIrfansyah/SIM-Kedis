@@ -112,7 +112,7 @@ class DataKendaraanController extends Controller
         $qrImage = QrCode::format('png')
             ->size(200)
             ->errorCorrection('H')
-            ->generate(route('scan.kendaraan', $data['qr_code']));
+            ->generate(route('scan.view', $data['qr_code']));
 
         Storage::disk('public')->put('qr_code/' . $data['qr_code'] . '.png', $qrImage);
 
