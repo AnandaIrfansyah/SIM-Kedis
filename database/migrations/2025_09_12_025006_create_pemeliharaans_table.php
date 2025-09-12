@@ -14,12 +14,19 @@ return new class extends Migration
         Schema::create('pemeliharaans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('kendaraan_id')->constrained('kendaraans')->onDelete('cascade');
-            $table->foreignId('asn_id')->constrained('asns')->onDelete('cascade');
-            $table->date('tanggal_pemeliharaan');
-            $table->string('jenis_pemeliharaan');
-            $table->double('biaya')->nullable();
-            $table->string('bengkel');
+
+            $table->foreignId('bengkel_id')->nullable()->constrained('bengkels')->nullOnDelete();
+
+            $table->string('nama_bengkel_manual')->nullable();
+            $table->string('alamat_bengkel_manual')->nullable();
+
+            $table->string('nomor_nota')->nullable();
+            $table->date('tanggal_pemeliharaan')->nullable();
+            $table->integer('kilometer')->nullable();
+            $table->text('uraian')->nullable();
+            $table->decimal('biaya', 15, 2)->nullable();
             $table->text('keterangan')->nullable();
+            $table->enum('jenis_pemeliharaan', ['suku cadang', 'pelumas', 'servis'])->nullable();
             $table->timestamps();
         });
     }

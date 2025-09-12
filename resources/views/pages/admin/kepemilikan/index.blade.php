@@ -67,7 +67,7 @@
                                 <thead class="bg-primary">
                                     <tr>
                                         <th class="text-center text-white">No</th>
-                                        <th class="text-center text-white">ASN</th>
+                                        <th class="text-center text-white">Pemegang</th>
                                         <th class="text-center text-white">Kendaraan</th>
                                         <th class="text-center text-white">No Polisi</th>
                                         <th class="text-center text-white">Tanggal Mulai</th>
@@ -77,7 +77,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($kepemilikans as $item)
+                                    @forelse ($kepemilikans as $item)
                                         <tr class="text-center">
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $item->asn->user->name }}</td>
@@ -114,7 +114,13 @@
 
                                             </td>
                                         </tr>
-                                    @endforeach
+                                    @empty
+                                        <tr>
+                                            <td colspan="8" class="text-center text-muted">
+                                                Data kendaraan tidak tersedia.
+                                            </td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>

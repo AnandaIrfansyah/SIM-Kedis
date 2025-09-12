@@ -7,6 +7,7 @@ use App\Http\Controllers\Public\PublicScanController;
 use App\Http\Controllers\Admin\DataKendaraanController;
 use App\Http\Controllers\Pegawai\PemeliharaanController;
 use App\Http\Controllers\Admin\KepemilikanKendaraanController;
+use App\Http\Controllers\Admin\PemeliharaanKendaraanController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Pegawai\DashboardController as PegawaiDashboardController;
 
@@ -20,7 +21,7 @@ Route::post('login', [LoginController::class, 'login'])->name('login.post');
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 // routes/web.php
-Route::get('/scan/{qrCode}', [PublicScanController::class, 'scanqr'])->name('scan.qr');
+Route::get('/scan/{qrCode}', [PublicScanController::class, 'scanqr'])->name('scan.kendaraan');
 
 // Update Password (semua user login bisa akses)
 Route::middleware('auth')->group(function () {
@@ -41,6 +42,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/cetak-qrcode', [DataKendaraanController::class, 'cetakQrCode'])->name('kendaraan.cetak.qrcode');
     Route::resource('kepemilikan', KepemilikanKendaraanController::class);
     Route::patch('kepemilikan/{id}/selesai', [KepemilikanKendaraanController::class, 'selesai'])->name('kepemilikan.selesai');
+    Route::resource('pemeliharaanKendaraan', PemeliharaanKendaraanController::class);
+    Route::get('pemeliharaanKendaraan/create/{kendaraan}', [PemeliharaanKendaraanController::class, 'create'])
+        ->name('pemeliharaanKendaraan.create');
+    Route::get('pemeliharaanKendaraan/{kendaraan}', [PemeliharaanKendaraanController::class, 'show'])
+        ->name('pemeliharaanKendaraan.show');
 });
 
 // Pegawai routes
