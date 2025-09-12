@@ -189,7 +189,7 @@ function startScanner(cameraId) {
                     let qrCode = decodedText.split("/").pop();
 
                     // Fetch data kendaraan
-                    fetch(`/scan/${qrCode}`)
+                    fetch(`/api/scan/${qrCode}`)
                         .then((res) => res.json())
                         .then((data) => {
                             if (data.error) {

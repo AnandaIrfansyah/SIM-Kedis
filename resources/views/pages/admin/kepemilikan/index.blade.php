@@ -36,7 +36,7 @@
         <section class="section">
             <div class="section-header d-flex justify-content-between align-items-center">
                 <h1>Data Kepemilikan Kendaraan</h1>
-                <a href="{{ route('kepemilikan.create') }}" class="btn btn-primary">
+                <a href="{{ route('kepemilikan.create') }}" class="btn btn-primary" title="Tambah Kepemilikan">
                     <i class="fas fa-plus"></i> Tambah Kepemilikan
                 </a>
             </div>
@@ -45,7 +45,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <a href="{{ route('kepemilikan.inactive') }}" class="btn btn-danger">
+                            <a href="{{ route('kepemilikan.inactive') }}" class="btn btn-danger" title="Riwayat Kepemilikan Selesai">
                                 <i class="fas fa-archive"></i> Riwayat Kepemilikan Selesai
                             </a>
                             <div class="mb-3">
@@ -54,7 +54,7 @@
                                         <input type="text" class="form-control" placeholder="Cari ASN / Merk / No Polisi"
                                             name="search" value="{{ request('search') }}">
                                         <div class="input-group-append">
-                                            <button class="btn btn-primary">
+                                            <button class="btn btn-primary" title="Cari Kepemilikan">
                                                 <i class="fas fa-search"></i>
                                             </button>
                                         </div>
@@ -77,7 +77,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($kepemilikans as $item)
+                                    @forelse ($kepemilikans as $item)
                                         <tr class="text-center">
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $item->asn->user->name }}</td>
@@ -91,13 +91,13 @@
                                             </td>
                                             <td>
                                                 <span
-                                                    class="badge badge-{{ $item->status == 'aktif' ? 'success' : 'secondary' }}">
+                                                    class="badge badge-{{ $item->status == 'aktif' ? 'success' : 'danger' }}">
                                                     {{ ucfirst($item->status) }}
                                                 </span>
                                             </td>
                                             <td>
                                                 <button type="button" class="btn btn-sm btn-info mr-1" data-toggle="modal"
-                                                    data-target="#detailModal{{ $item->id }}">
+                                                    data-target="#detailModal{{ $item->id }}" title="Lihat Detail Kepemilikan">
                                                     <i class="fas fa-eye"></i> Detail
                                                 </button>
 
@@ -106,7 +106,7 @@
                                                         method="POST" class="d-inline-block form-finish">
                                                         @csrf
                                                         @method('PATCH')
-                                                        <button type="button" class="btn btn-sm btn-warning btn-finish">
+                                                        <button type="button" class="btn btn-sm btn-warning btn-finish" title="Selesaikan Kepemilikan">
                                                             <i class="fas fa-check"></i> Selesai
                                                         </button>
                                                     </form>
@@ -114,7 +114,13 @@
 
                                             </td>
                                         </tr>
-                                    @endforeach
+                                    @empty
+                                        <tr>
+                                            <td colspan="8" class="text-center text-muted">
+                                                Tidak ada riwayat kepemilikan.
+                                            </td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>
@@ -173,7 +179,7 @@
                                                 <label class="font-weight-bold text-primary mb-0">Status</label>
                                                 <p class="mb-0">
                                                     <span
-                                                        class="badge badge-pill {{ $item->asn->status == 'aktif' ? 'badge-success' : ($item->asn->status == 'pensiun' ? 'badge-secondary' : 'badge-danger') }}">
+                                                        class="badge badge-pill {{ $item->asn->status == 'aktif' ? 'badge-success' : ($item->asn->status == 'pensiun' ? 'badge-danger' : 'badge-danger') }}">
                                                         {{ ucfirst($item->asn->status) }}
                                                     </span>
                                                 </p>
@@ -359,7 +365,7 @@
 
             Swal.fire({
                 title: 'Apakah Anda yakin?',
-                text: "Kepemilikan kendaraan ini akan diselesaikan.",
+                text: "Kepemilikan kendaraan ini akan diselesaikan. Data tidak bisa dikembalikan setelah diselesaikan!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',

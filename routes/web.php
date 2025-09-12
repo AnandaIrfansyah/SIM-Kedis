@@ -19,8 +19,9 @@ Route::get('login', [LoginController::class, 'showLogin'])->name('login');
 Route::post('login', [LoginController::class, 'login'])->name('login.post');
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
-// routes/web.php
-Route::get('/scan/{qrCode}', [PublicScanController::class, 'scanqr'])->name('scan.qr');
+// SCAN QR Code
+Route::get('/api/scan/{qrCode}', [PublicScanController::class, 'scanApi'])->name('scan.api');
+Route::get('/scan/{qrCode}', [PublicScanController::class, 'scanView'])->name('scan.view');
 
 // Update Password (semua user login bisa akses)
 Route::middleware('auth')->group(function () {
@@ -33,13 +34,18 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('admin', DashboardController::class);
     Route::get('asn/inactive', [DataAsnController::class, 'inactive'])->name('asn.inactive');
     Route::resource('asn', DataAsnController::class);
+    Route::patch('/asn/{id}/status', [DataAsnController::class, 'updateStatus'])->name('asn.update-status');
+
     Route::get('kendaraan/inactive', [DataKendaraanController::class, 'inactive'])->name('kendaraan.inactive');
     Route::resource('kendaraan', DataKendaraanController::class)->except(['show']);
     Route::resource('kendaraan', DataKendaraanController::class);
+    Route::patch('/kendaraan/{id}/status', [DataKendaraanController::class, 'updateStatus'])
+        ->name('kendaraan.update-status');
+    Route::get('/cetak-qrcode', [DataKendaraanController::class, 'cetakQrCode'])->name('kendaraan.cetak.qrcode');
+
+    Route::resource('kepemilikan', KepemilikanKendaraanController::class);
     Route::get('kepemilikan/nonaktif', [KepemilikanKendaraanController::class, 'inactive'])
         ->name('kepemilikan.inactive');
-    Route::get('/cetak-qrcode', [DataKendaraanController::class, 'cetakQrCode'])->name('kendaraan.cetak.qrcode');
-    Route::resource('kepemilikan', KepemilikanKendaraanController::class);
     Route::patch('kepemilikan/{id}/selesai', [KepemilikanKendaraanController::class, 'selesai'])->name('kepemilikan.selesai');
 });
 

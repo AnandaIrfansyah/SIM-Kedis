@@ -62,6 +62,20 @@ class DataKendaraanController extends Controller
         return $pdf->stream('qr-kendaraan.pdf');
     }
 
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:aktif,nonaktif',
+        ]);
+
+        $kendaraan = Kendaraan::findOrFail($id);
+        $kendaraan->status = $request->status;
+        $kendaraan->save();
+
+        return redirect()->back()->with('success', "Status kendaraan {$kendaraan->no_polisi} berhasil diperbarui.");
+    }
+
+
     public function create()
     {
         return view('pages.admin.kendaraan.create');
@@ -161,6 +175,6 @@ class DataKendaraanController extends Controller
 
         $kendaraan->delete();
 
-        return redirect()->route('kendaraan.index')->with('success', 'Data kendaraan berhasil dihapus.');
+        return redirect()->back()->with('success', 'Data kendaraan berhasil dihapus.');
     }
 }

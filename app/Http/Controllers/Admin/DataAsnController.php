@@ -40,6 +40,19 @@ class DataAsnController extends Controller
         return view('pages.admin.asn.inactive', compact('asn'));
     }
 
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:aktif,nonaktif',
+        ]);
+
+        $asn = Asn::findOrFail($id);
+        $asn->status = $request->status;
+        $asn->save();
+
+        return redirect()->back()->with('success', "Status Pegawai {$asn->user->name} berhasil diperbarui.");
+    }
+
     public function create()
     {
         return view('pages.admin.asn.create');
@@ -128,6 +141,6 @@ class DataAsnController extends Controller
         $asn->user()->delete();
         $asn->delete();
 
-        return redirect()->route('asn.index')->with('success', 'Pegawai berhasil dihapus.');
+        return redirect()->back()->with('success', 'Pegawai berhasil dihapus.');
     }
 }
