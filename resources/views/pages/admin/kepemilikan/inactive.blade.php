@@ -66,7 +66,7 @@
                                 <thead class="bg-primary">
                                     <tr>
                                         <th class="text-center text-white">No</th>
-                                        <th class="text-center text-white">ASN</th>
+                                        <th class="text-center text-white">Pemegang</th>
                                         <th class="text-center text-white">Kendaraan</th>
                                         <th class="text-center text-white">No Polisi</th>
                                         <th class="text-center text-white">Tanggal Mulai</th>
@@ -132,7 +132,7 @@
 
                     <div class="modal-body">
                         <div class="row">
-                            {{-- Detail ASN --}}
+                            <!-- Detail ASN -->
                             <div class="col-md-6 mb-4">
                                 <div class="card h-100 shadow-sm">
                                     <div class="card-header bg-primary text-white d-flex align-items-center">
@@ -140,15 +140,42 @@
                                         <h6 class="mb-0">Detail ASN</h6>
                                     </div>
                                     <div class="card-body">
-                                        <p><strong>Nama:</strong> {{ $item->asn->user->name }}</p>
-                                        <p><strong>NIP:</strong> {{ $item->asn->nip }}</p>
-                                        <p><strong>Jabatan:</strong> {{ $item->asn->jabatan ?? '-' }}</p>
-                                        <p><strong>Unit Kerja:</strong> {{ $item->asn->unit_kerja ?? '-' }}</p>
+                                        <div class="row">
+                                            <div class="col-12 mb-2">
+                                                <label class="font-weight-bold text-primary mb-0">Nama</label>
+                                                <p class="mb-0">{{ $item->asn->user->name }}</p>
+                                            </div>
+                                            <div class="col-sm-6 mb-2">
+                                                <label class="font-weight-bold text-primary mb-0">NIP</label>
+                                                <p class="mb-0">{{ $item->asn->nip }}</p>
+                                            </div>
+                                            <div class="col-sm-6 mb-2">
+                                                <label class="font-weight-bold text-primary mb-0">Jabatan</label>
+                                                <p class="mb-0">{{ $item->asn->jabatan ?? '-' }}</p>
+                                            </div>
+                                            <div class="col-sm-6 mb-2">
+                                                <label class="font-weight-bold text-primary mb-0">Unit Kerja</label>
+                                                <p class="mb-0">{{ $item->asn->unit_kerja ?? '-' }}</p>
+                                            </div>
+                                            {{-- <div class="col-sm-6 mb-2">
+                                                <label class="font-weight-bold text-primary mb-0">No HP</label>
+                                                <p class="mb-0">{{ $item->asn->no_hp ?? '-' }}</p>
+                                            </div> --}}
+                                            <div class="col-6 mb-2">
+                                                <label class="font-weight-bold text-primary mb-0">Status</label>
+                                                <p class="mb-0">
+                                                    <span
+                                                        class="badge badge-pill {{ $item->asn->status == 'aktif' ? 'badge-success' : ($item->asn->status == 'pensiun' ? 'badge-secondary' : 'badge-danger') }}">
+                                                        {{ ucfirst($item->asn->status) }}
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            {{-- Detail Kendaraan --}}
+                            <!-- Detail Kendaraan -->
                             <div class="col-md-6 mb-4">
                                 <div class="card h-100 shadow-sm">
                                     <div class="card-header bg-info text-white d-flex align-items-center">
@@ -161,38 +188,52 @@
                                         <p><strong>No Polisi:</strong> {{ $item->kendaraan->no_polisi }}</p>
                                         <p><strong>Tahun:</strong> {{ $item->kendaraan->tahun ?? '-' }}</p>
                                         <p><strong>Status:</strong>
-                                            <span class="badge badge-danger">Nonaktif</span>
+                                            <span class="badge badge-secondary">Nonaktif</span>
                                         </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        {{-- Foto & QR --}}
+                        <!-- Foto & QR Code -->
                         <div class="row">
                             <div class="col-12">
                                 <div class="card shadow-sm">
-                                    <div class="card-header bg-secondary text-white">
-                                        <i class="fas fa-images mr-2"></i> Foto & QR Code
+                                    <div class="card-header bg-secondary text-white d-flex align-items-center">
+                                        <i class="fas fa-images mr-2"></i>
+                                        <h6 class="mb-0">Foto & QR Code</h6>
                                     </div>
-                                    <div class="card-body text-center">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <h6 class="text-primary mb-3">Foto Kendaraan</h6>
+                                    <div class="card-body">
+                                        <div class="row text-center">
+                                            <div class="col-md-6 mb-3 mb-md-0">
+                                                <h6 class="text-primary mb-3">
+                                                    <i class="fas fa-camera mr-2"></i>Foto Kendaraan
+                                                </h6>
                                                 @if ($item->kendaraan->foto)
                                                     <img src="{{ asset('storage/' . $item->kendaraan->foto) }}"
-                                                        class="img-thumbnail" style="max-height: 200px;">
+                                                        alt="Foto Kendaraan" class="img-thumbnail preview-media"
+                                                        style="max-height: 200px; cursor: pointer;"
+                                                        data-src="{{ asset('storage/' . $item->kendaraan->foto) }}"
+                                                        data-toggle="tooltip" title="Klik untuk memperbesar">
                                                 @else
-                                                    <p class="text-muted">Belum ada foto kendaraan</p>
+                                                    <div class="bg-light p-5 rounded">
+                                                        <i class="fas fa-image fa-3x text-muted mb-2"></i>
+                                                        <p class="text-muted mb-0">Belum ada foto kendaraan</p>
+                                                    </div>
                                                 @endif
                                             </div>
                                             <div class="col-md-6">
-                                                <h6 class="text-info mb-3">QR Code</h6>
+                                                <h6 class="text-info mb-3">
+                                                    <i class="fas fa-qrcode mr-2"></i>QR Code
+                                                </h6>
                                                 @if ($item->kendaraan->qr_code)
-                                                    <img src="{{ asset('storage/qr_code/' . $item->kendaraan->qr_code . '.png') }}"
+                                                    <img src="{{ asset('storage/qr_code/' . $item->kendaraan->id . '.png') }}"
                                                         class="img-thumbnail" style="max-height: 200px;">
                                                 @else
-                                                    <p class="text-muted">Belum ada QR Code</p>
+                                                    <div class="bg-light p-5 rounded">
+                                                        <i class="fas fa-qrcode fa-3x text-muted mb-2"></i>
+                                                        <p class="text-muted mb-0">Belum ada QR Code</p>
+                                                    </div>
                                                 @endif
                                             </div>
                                         </div>
@@ -204,7 +245,7 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                            <i class="fas fa-times"></i> Tutup
+                            <i class="fas fa-times mr-1"></i> Tutup
                         </button>
                     </div>
                 </div>

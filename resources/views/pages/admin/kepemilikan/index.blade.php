@@ -67,7 +67,7 @@
                                 <thead class="bg-primary">
                                     <tr>
                                         <th class="text-center text-white">No</th>
-                                        <th class="text-center text-white">ASN</th>
+                                        <th class="text-center text-white">Pemegang</th>
                                         <th class="text-center text-white">Kendaraan</th>
                                         <th class="text-center text-white">No Polisi</th>
                                         <th class="text-center text-white">Tanggal Mulai</th>

@@ -10,7 +10,6 @@
         </div>
         <hr class="my-2">
 
-        <!-- Sidebar Menu -->
         <ul class="sidebar-menu">
             <!-- Dashboard Section -->
             <li class="menu-header">Dashboard</li>
@@ -32,6 +31,11 @@
                     <i class="fas fa-car"></i> <span>Data Kendaraan</span>
                 </a>
             </li>
+            <li class="nav-item {{ Request::is('bengkel*') ? 'active' : '' }}">
+                <a href="{{ url('bengkel') }}" class="nav-link">
+                    <i class="fas fa-tools"></i> <span>Data Bengkel</span>
+                </a>
+            </li>
 
             <!-- Pengelolaan Aset -->
             <li class="menu-header">Pengelolaan Aset</li>
@@ -40,9 +44,9 @@
                     <i class="fas fa-file-contract"></i> <span>Kepemilikan Kendaraan</span>
                 </a>
             </li>
-            <li class="nav-item {{ Request::is('pemeliharaan*') ? 'active' : '' }}">
-                <a href="{{ url('pemeliharaan') }}" class="nav-link">
-                    <i class="fas fa-tools"></i> <span>Pemeliharaan</span>
+            <li class="nav-item {{ Request::is('pemeliharaanKendaraan*') ? 'active' : '' }}">
+                <a href="{{ url('pemeliharaanKendaraan') }}" class="nav-link">
+                    <i class="fas fa-wrench"></i> <span>Pemeliharaan</span>
                 </a>
             </li>
 

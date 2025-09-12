@@ -2,6 +2,10 @@
 
 @section('title', 'Tambah Kepemilikan Kendaraan')
 
+@push('style')
+
+@endpush
+
 @section('main')
     <div class="main-content">
         <section class="section">
@@ -22,7 +26,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="asn_id">ASN</label>
-                                        <select name="asn_id" id="asn_id" class="form-control selectric" required>
+                                        <select name="asn_id" id="asn_id" class="form-control select2" required>
                                             <option value="">-- Pilih ASN --</option>
                                             @foreach ($asns as $asn)
                                                 <option value="{{ $asn->id }}">{{ $asn->user->name }}
@@ -36,7 +40,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="kendaraan_id">Kendaraan</label>
-                                        <select name="kendaraan_id" id="kendaraan_id" class="form-control selectric"
+                                        <select name="kendaraan_id" id="kendaraan_id" class="form-control select2"
                                             required>
                                             <option value="">-- Pilih Kendaraan --</option>
                                             @foreach ($kendaraans as $kendaraan)

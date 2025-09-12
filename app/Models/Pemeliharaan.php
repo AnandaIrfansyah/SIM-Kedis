@@ -2,30 +2,34 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Pemeliharaan extends Model
 {
-    protected $table = 'pemeliharaans';
+    use HasFactory;
 
     protected $fillable = [
         'kendaraan_id',
-        'asn_id',
+        'bengkel_id',
+        'nama_bengkel_manual',
+        'alamat_bengkel_manual',
+        'nomor_nota',
         'tanggal_pemeliharaan',
-        'jenis_pemeliharaan',
+        'kilometer',
+        'uraian',
         'biaya',
-        'bengkel',
         'keterangan',
+        'jenis_pemeliharaan',
     ];
-
-
-    public function asn()
-    {
-        return $this->belongsTo(Asn::class, 'asn_id');
-    }
 
     public function kendaraan()
     {
-        return $this->belongsTo(Kendaraan::class, 'kendaraan_id');
+        return $this->belongsTo(Kendaraan::class);
+    }
+
+    public function bengkel()
+    {
+        return $this->belongsTo(Bengkel::class);
     }
 }

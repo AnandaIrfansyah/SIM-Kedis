@@ -7,6 +7,7 @@ use App\Http\Controllers\Public\PublicScanController;
 use App\Http\Controllers\Admin\DataKendaraanController;
 use App\Http\Controllers\Pegawai\PemeliharaanController;
 use App\Http\Controllers\Admin\KepemilikanKendaraanController;
+use App\Http\Controllers\Admin\PemeliharaanKendaraanController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Pegawai\DashboardController as PegawaiDashboardController;
 
@@ -47,6 +48,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('kepemilikan/nonaktif', [KepemilikanKendaraanController::class, 'inactive'])
         ->name('kepemilikan.inactive');
     Route::patch('kepemilikan/{id}/selesai', [KepemilikanKendaraanController::class, 'selesai'])->name('kepemilikan.selesai');
+    Route::resource('pemeliharaanKendaraan', PemeliharaanKendaraanController::class);
+    Route::get('pemeliharaanKendaraan/create/{kendaraan}', [PemeliharaanKendaraanController::class, 'create'])
+        ->name('pemeliharaanKendaraan.create');
+    Route::get('pemeliharaanKendaraan/{kendaraan}', [PemeliharaanKendaraanController::class, 'show'])
+        ->name('pemeliharaanKendaraan.show');
 });
 
 // Pegawai routes

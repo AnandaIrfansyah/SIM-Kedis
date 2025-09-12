@@ -30,7 +30,14 @@ class Asn extends Model
 
     public function kepemilikanKendaraans()
     {
-        return $this->hasMany(KepemilikanKendaraan::class, 'asn_id');
+        return $this->hasMany(KepemilikanKendaraan::class);
+    }
+
+    public function kendaraans()
+    {
+        return $this->belongsToMany(Kendaraan::class, 'kepemilikan_kendaraans')
+            ->withPivot(['tanggal_mulai', 'tanggal_selesai', 'status'])
+            ->withTimestamps();
     }
 
     public function pemeliharaans()
