@@ -460,37 +460,40 @@ footer {
 /* Section Scan Result */
 #scan-result {
     text-align: center;
+    margin-bottom: 3rem;
 }
 
 #scan-result h2 {
-    font-size: 1.6rem;
-    color: #2c3e50;
+    font-size: 1.8rem;
+    color: #0b3d91;
+    font-weight: 700;
     margin-bottom: 5px;
 }
 
 #scan-result h4 {
-    font-weight: normal;
+    font-weight: 500;
     color: #7f8c8d;
-    margin-bottom: 20px;
+    margin-bottom: 1.8rem;
 }
 
 /* Card Kendaraan */
 .kendaraan-card {
-    background: #f8f9fa;
-    border-radius: 16px;
-    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
-    padding: 2rem;
-    margin-top: 1.5rem;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+    padding: 2.2rem;
+    margin: 1.5rem auto;
+    max-width: 100%;
+    width: 100%;
 }
 
 .kendaraan-card h1 {
-    font-size: 3rem;
+    font-size: 2.6rem;
     font-weight: 700;
     color: #0b3d91;
-    margin-bottom: 1rem;
+    margin-bottom: 1.4rem;
     letter-spacing: 1px;
     text-align: center;
-    width: 100%;
 }
 
 /* Body: foto + detail */
@@ -499,79 +502,97 @@ footer {
     gap: 2rem;
     align-items: flex-start;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .kendaraan-foto {
-    flex: 0 0 220px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    flex: 0 0 auto; /* foto fix ukurannya */
 }
 
 .kendaraan-foto img {
     width: 220px;
     height: 160px;
-    object-fit: cover;
+    object-fit: contain; /* biar gambar full kelihatan */
     border-radius: 14px;
-    border: 1.5px solid #e0e0e0;
+    border: 2px solid #e6e9ef;
     background: #fff;
-}
-
-.kendaraan-detail {
-    flex: 1;
-    min-width: 220px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 /* Kendaraan Info 2 Kolom */
 .kendaraan-info-2col {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1.2rem 2rem;
+    gap: 1rem 2rem;
     margin-top: 0.5rem;
-}
-
-.kendaraan-info-2col .col {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    width: 100%;
+    max-width: 500px;
+    flex: 1; /* info bisa melebar */
 }
 
 .kendaraan-info-2col .row {
     display: grid;
-    grid-template-columns: 180px 1fr;
+    grid-template-columns: minmax(220px, 160px) 1fr;
     align-items: center;
-    background: #eef2f7;
-    border-radius: 6px;
-    padding: 0.5rem 0.8rem;
-    font-size: 1rem;
+    background: #f4f7fb;
+    border-radius: 8px;
+    margin: 0.3rem 0;
+    padding: 0.6rem 0.9rem;
+    font-size: 0.95rem;
+    transition: background 0.2s;
+}
+
+.kendaraan-info-2col .row:hover {
+    background: #eaf1fa;
 }
 
 .kendaraan-info-2col .label {
     color: #0b3d91;
     font-weight: 600;
     text-align: left;
-    padding-right: 1rem;
 }
 
 .kendaraan-info-2col span:not(.label) {
-    color: #222;
+    color: #2c3e50;
     font-weight: 500;
     text-align: left;
 }
 
-/* Responsive: tablet ke bawah */
+/* Button */
+#scan-result .btn {
+    display: inline-block;
+    margin: 2rem 0;
+    padding: 0.75rem 1.8rem;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(135deg, #0b3d91, #1a73e8);
+    border: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 12px rgba(11, 61, 145, 0.3);
+}
+
+#scan-result .btn:hover {
+    background: linear-gradient(135deg, #093170, #1558c0);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 16px rgba(11, 61, 145, 0.4);
+}
+
+/* Responsive Tablet */
 @media (max-width: 700px) {
     .kendaraan-info-2col {
         grid-template-columns: 1fr;
-        gap: 0.7rem;
     }
     .kendaraan-info-2col .row {
         grid-template-columns: 1fr;
-        padding: 0.5rem 0.5rem;
     }
-    .kendaraan-info-2col .label {
-        padding-right: 0;
-        margin-bottom: 2px;
+    .kendaraan-body {
+        flex-direction: column;
+        align-items: center;
+    }
+    .kendaraan-card h1 {
+        font-size: 2rem;
     }
 }
 
@@ -592,6 +613,18 @@ footer {
         margin-bottom: 1rem;
     }
 }
+
+/* Responsive: Laptop Lebar */
+@media (min-width: 1024px) {
+    .kendaraan-body {
+        justify-content: flex-start;
+        gap: 3rem;
+    }
+    .kendaraan-card {
+        padding: 3rem;
+    }
+}
+
 
 /* RESPONSIVE FIX */
 @media (max-width: 992px) {

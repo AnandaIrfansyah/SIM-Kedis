@@ -19,8 +19,9 @@ Route::get('login', [LoginController::class, 'showLogin'])->name('login');
 Route::post('login', [LoginController::class, 'login'])->name('login.post');
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
-// routes/web.php
-Route::get('/scan/{qrCode}', [PublicScanController::class, 'scanqr'])->name('scan.qr');
+// SCAN QR Code
+Route::get('/api/scan/{qrCode}', [PublicScanController::class, 'scanApi'])->name('scan.api');
+Route::get('/scan/{qrCode}', [PublicScanController::class, 'scanView'])->name('scan.view');
 
 // Update Password (semua user login bisa akses)
 Route::middleware('auth')->group(function () {
